@@ -26,7 +26,7 @@ public class BoatItemBOP extends Item {
     private final BoatModel model;
 
     public BoatItemBOP(BoatModel model) {
-        super(new Item.Properties().stacksTo(1).tab(ItemGroupBOP.instance));
+        super(new Item.Settings().maxCount(1).group(ItemGroupBOP.ItemGroupBOP));
         this.model = model;
         DispenserBlock.registerBehavior(this, new DispenserBoatBehaviorBOP(model));
     }

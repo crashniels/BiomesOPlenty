@@ -8,21 +8,14 @@
 package biomesoplenty.common.util.inventory;
 
 import biomesoplenty.api.item.BOPItems;
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 
-public class ItemGroupBOP extends ItemGroup
+public class ItemGroupBOP 
 {
-    public static final ItemGroupBOP instance = new ItemGroupBOP(ItemGroup.TABS.length, "biomesoplenty");
-
-    private ItemGroupBOP(int index, String label)
-    {
-        super(index, label);
-    }
-
-    @Override
-    public ItemStack makeIcon()
-    {
-        return new ItemStack(BOPItems.bop_icon);
-    }
+    public static final ItemGroup ItemGroupBOP = FabricItemGroupBuilder.build(
+		new Identifier(biomesoplenty.core.BiomesOPlenty.MOD_ID, "biomesoplenty"),
+		() -> new ItemStack(BOPItems.bop_icon));
 }

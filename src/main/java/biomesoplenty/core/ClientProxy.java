@@ -10,9 +10,9 @@ package biomesoplenty.core;
 import biomesoplenty.api.block.BOPBlocks;
 import biomesoplenty.client.BOPClassicPack;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.color.BlockColors;
-import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.item.BlockItem;
 import net.minecraft.resources.ResourcePackInfo;
 import net.minecraft.util.ResourceLocation;
@@ -39,8 +39,8 @@ public class ClientProxy extends CommonProxy
     {
         //addClassicPack();
 
-        BlockColors blockColors = Minecraft.getInstance().getBlockColors();
-        ItemColors itemColors = Minecraft.getInstance().getItemColors();
+        BlockColors blockColors = MinecraftClient.getInstance().getBlockColors();
+        ItemColors itemColors = MinecraftClient.getInstance().getItemColors();
 
         //Grass Coloring
         blockColors.register((state, world, pos, tintIndex) ->

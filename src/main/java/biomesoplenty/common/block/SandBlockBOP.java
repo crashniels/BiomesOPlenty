@@ -1,26 +1,20 @@
 package biomesoplenty.common.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.SandBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraftforge.common.PlantType;
 
 public class SandBlockBOP extends SandBlock
 {
-    public SandBlockBOP(int p_i48338_1_, Block.Properties properties)
+    public SandBlockBOP(int color, FabricBlockSettings properties)
     {
-        super(p_i48338_1_, properties);
+        super(color, properties);
     }
-
+    
+    //
+    // Search for alternative
+    /*
     @Override
-    public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, net.minecraftforge.common.IPlantable plantable)
+    public boolean canPlantonTop(BlockState state, BlockView world, BlockPos pos, Direction facing, net.minecraftforge.common.IPlantable plantable)
     {
         PlantType type = plantable.getPlantType(world, pos.relative(facing));
 
@@ -39,4 +33,5 @@ public class SandBlockBOP extends SandBlock
 
         return super.canSustainPlant(state, world, pos, facing, plantable);
     }
+    */
 }

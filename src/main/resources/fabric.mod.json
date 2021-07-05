@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "biomesoplenty",
+  "version": "${version}",
+
+  "name": "Biomes O' Plenty",
+  "description": "Minecraft mod that adds over 50 new biomes to the game.",
+  "authors": [
+    "BOP GitHub"
+  ],
+  "contact": {
+    "sources": "https://github.com/crashniels/BiomesOPlenty"
+  },
+
+  "license": "CC BY-NC-ND 4.0",
+  "icon": "classic/pack.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "biomesoplenty.core.BiomesOPlenty"
+    ]
+  },
+  "mixins": [
+    "biomesoplenty.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.17.x",
+    "java": ">=16"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

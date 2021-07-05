@@ -24,23 +24,16 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import net.minecraft.entity.villager.VillagerType;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.village.VillagerType;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeColors;
-import net.minecraft.world.biome.Biomes;
+import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.level.ColorResolver;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.GameData;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
@@ -50,7 +43,6 @@ import java.util.Map;
 
 import static biomesoplenty.api.biome.BOPBiomes.*;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModBiomes
 {
     public static BOPWorldType bopWorldType = new BOPWorldType();
@@ -61,7 +53,27 @@ public class ModBiomes
 
     public static void setup()
     {
-        if (FMLEnvironment.dist == Dist.CLIENT)
+        // Obtain the game data logger and disable it temporarily
+        Logger gameDataLogger = (Logger)LogManager.getLogger(GameData.class);
+        Level oldLevel = gameDataLogger.getLevel();
+        gameDataLogger.setLevel(Level.OFF);
+
+        // Register our world type
+        // We intentionally use the minecraft namespace so we continue using "biomesoplenty" in server.properties
+        // This is markedly better than the alternative of biomesoplenty:biomesoplenty.
+        // We do this with GameData logging disabled to prevent people whining at us.
+        bopWorldType.setRegistryName(new Identifier("biomesoplenty"));
+        ForgeRegistries.WORLD_TYPES.register(bopWorldType);
+
+        // Re-enable the game data logger
+        gameDataLogger.setLevel(oldLevel);
+
+        // Register biome providers
+        Registry.register(Registry.BIOME_SOURCE, "biomesoplenty_overworld", BOPBiomeProvider.CODEC);
+        Registry.register(Registry.BIOME_SOURCE, "biomesoplenty_nether", BOPNetherBiomeProvider.CODEC);
+    }
+    @Environment(EnvType.CLIENT)
+    public void clientSetup()
         {
             ColorResolver grassColorResolver = BiomeColors.GRASS_COLOR_RESOLVER;
             ColorResolver foliageColorResolver = BiomeColors.FOLIAGE_COLOR_RESOLVER;
@@ -107,28 +119,7 @@ public class ModBiomes
             };
         }
 
-        // Obtain the game data logger and disable it temporarily
-        Logger gameDataLogger = (Logger)LogManager.getLogger(GameData.class);
-        Level oldLevel = gameDataLogger.getLevel();
-        gameDataLogger.setLevel(Level.OFF);
-
-        // Register our world type
-        // We intentionally use the minecraft namespace so we continue using "biomesoplenty" in server.properties
-        // This is markedly better than the alternative of biomesoplenty:biomesoplenty.
-        // We do this with GameData logging disabled to prevent people whining at us.
-        bopWorldType.setRegistryName(new ResourceLocation("biomesoplenty"));
-        ForgeRegistries.WORLD_TYPES.register(bopWorldType);
-
-        // Re-enable the game data logger
-        gameDataLogger.setLevel(oldLevel);
-
-        // Register biome providers
-        Registry.register(Registry.BIOME_SOURCE, "biomesoplenty_overworld", BOPBiomeProvider.CODEC);
-        Registry.register(Registry.BIOME_SOURCE, "biomesoplenty_nether", BOPNetherBiomeProvider.CODEC);
-    }
-
-    @SubscribeEvent
-    public static void registerBiomes(RegistryEvent.Register<Biome> event)
+    public static void registerBiomes()
     {
         //Technical Biomes (Need to be registered before main biomes that use them)
         registerTechnicalBiome(new GravelBeachBiome(), "gravel_beach");

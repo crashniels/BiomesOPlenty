@@ -13,8 +13,8 @@ import biomesoplenty.init.ModBiomes;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.INoiseRandom;
 import net.minecraft.world.gen.area.IArea;
-import net.minecraft.world.gen.layer.traits.IAreaTransformer2;
-import net.minecraft.world.gen.layer.traits.IDimOffset0Transformer;
+//import net.minecraft.world.gen.layer.traits.IAreaTransformer2;
+//import net.minecraft.world.gen.layer.traits.IDimOffset0Transformer;
 
 public enum BOPBiomeLayer implements IAreaTransformer2, IDimOffset0Transformer
 {

@@ -1,12 +1,16 @@
 package biomesoplenty.init;
 
 import biomesoplenty.api.block.BOPBlocks;
+import biomesoplenty.mixin.item.AxeItemAccessor;
+
 import com.google.common.collect.Maps;
+
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.minecraft.block.*;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.HoeItem;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ShovelItem;
-import net.minecraft.util.IItemProvider;
 
 public class ModVanillaCompat
 {
@@ -167,8 +171,8 @@ public class ModVanillaCompat
         registerStrippable(BOPBlocks.hellbark_wood, BOPBlocks.stripped_hellbark_wood);
 
         //Tilling and Flattening
-        registerTillable(BOPBlocks.origin_grass_block, Blocks.FARMLAND.defaultBlockState());
-        registerFlattenable(BOPBlocks.origin_grass_block, Blocks.GRASS_PATH.defaultBlockState());
+        registerTillable(BOPBlocks.origin_grass_block, Blocks.FARMLAND.getDefaultState());
+        registerFlattenable(BOPBlocks.origin_grass_block, Blocks.DIRT_PATH.getDefaultState());
 
         //Compostable Blocks
         registerCompostable(0.85F, BOPBlocks.glowshroom_block);
@@ -249,27 +253,27 @@ public class ModVanillaCompat
     }
 
     public static void registerStrippable(Block log, Block stripped_log) {
-        AxeItem.STRIPABLES = Maps.newHashMap(AxeItem.STRIPABLES);
-        AxeItem.STRIPABLES.put(log, stripped_log);
+        //STRIPPED_BLOCKS = Maps.newHashMap(STRIPPED_BLOCKS);
+        //AxeItemAccessor.getStrippedBlocks().put(log, stripped_log);
     }
 
     public static void registerTillable(Block block, BlockState tilled_block) {
-        HoeItem.TILLABLES = Maps.newHashMap(HoeItem.TILLABLES);
-        HoeItem.TILLABLES.put(block, tilled_block);
+        //HoeItem.TILLABLES = Maps.newHashMap(HoeItem.TILLABLES);
+        //HoeItem.TILLABLES.put(block, tilled_block);
     }
 
     public static void registerFlattenable(Block block, BlockState flattened_block) {
-        ShovelItem.FLATTENABLES = Maps.newHashMap(ShovelItem.FLATTENABLES);
-        ShovelItem.FLATTENABLES.put(block, flattened_block);
+        //ShovelItem.FLATTENABLES = Maps.newHashMap(ShovelItem.FLATTENABLES);
+        //ShovelItem.FLATTENABLES.put(block, flattened_block);
     }
 
-    public static void registerCompostable(float chance, IItemProvider itemIn) {
-        ComposterBlock.COMPOSTABLES.put(itemIn.asItem(), chance);
+    public static void registerCompostable(float chance, ItemConvertible itemIn) {
+        //ComposterBlock.COMPOSTABLES.put(itemIn.asItem(), chance);
     }
 
     public static void registerFlammable(Block blockIn, int encouragement, int flammability)
     {
-        FireBlock fireblock = (FireBlock)Blocks.FIRE;
-        fireblock.setFlammable(blockIn, encouragement, flammability);
+        //FireBlock fireblock = (FireBlock)Blocks.FIRE;
+        FlammableBlockRegistry.getDefaultInstance().add(blockIn, encouragement, flammability);
     }
 }

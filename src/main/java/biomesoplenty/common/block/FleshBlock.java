@@ -7,21 +7,21 @@
  ******************************************************************************/
 package biomesoplenty.common.block;
 
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.BlockView;
 
 public class FleshBlock extends Block
 {
-    public FleshBlock(Block.Properties properties)
+    public FleshBlock(FabricBlockSettings properties)
     {
         super(properties);
     }
 
     @Override
-    public void stepOn(World worldIn, BlockPos pos, Entity entityIn)
+    public void onEntityLand(BlockView world, Entity entity)
     {
-        entityIn.setDeltaMovement(entityIn.getDeltaMovement().multiply(0.95D, 1.0D, 0.95D));
+        entity.setVelocity(entity.getVelocity().multiply(0.95D, 1.0D, 0.95D));
     }
 }

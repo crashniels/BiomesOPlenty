@@ -14,12 +14,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import net.minecraft.util.RegistryKey;
+
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biomes;
-import net.minecraft.world.gen.INoiseRandom;
-import net.minecraftforge.common.BiomeManager;
-import net.minecraftforge.common.BiomeManager.BiomeType;
+import net.minecraft.world.biome.BiomeKeys;
+import net.minecraft.world.gen.ChunkRandom;
+import net.minecraft.world.gen.WorldGenRandom;
+import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
+import net.fabricmc.fabric.api.biome.v1.BiomeModification;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,30 +30,30 @@ import java.util.stream.Collectors;
 
 public enum BOPClimates
 {
-    ICE_CAP (BiomeType.ICY),
-    TUNDRA (BiomeType.ICY),
-    WET_BOREAL (BiomeType.COOL),
-    DRY_BOREAL (BiomeType.COOL),
-    WET_TEMPERATE (BiomeType.COOL),
-    DRY_TEMPERATE (BiomeType.WARM),
-    COOL_TEMPERATE (BiomeType.COOL),
-    WARM_TEMPERATE (BiomeType.WARM),
-    SUBTROPICAL (BiomeType.WARM),
-    TROPICAL (BiomeType.DESERT),
-    MEDITERRANEAN (BiomeType.WARM),
-    SAVANNA (BiomeType.DESERT),
-    HOT_DESERT (BiomeType.DESERT),
+    ICE_CAP (OverworldClimate.SNOWY),
+    TUNDRA (OverworldClimate.SNOWY),
+    WET_BOREAL (OverworldClimate.COOL),
+    DRY_BOREAL (OverworldClimate.COOL),
+    WET_TEMPERATE (OverworldClimate.COOL),
+    DRY_TEMPERATE (OverworldClimate.TEMPERATE),
+    COOL_TEMPERATE (OverworldClimate.COOL),
+    WARM_TEMPERATE (OverworldClimate.TEMPERATE),
+    SUBTROPICAL (OverworldClimate.TEMPERATE),
+    TROPICAL (OverworldClimate.DRY),
+    MEDITERRANEAN (OverworldClimate.TEMPERATE),
+    SAVANNA (OverworldClimate.DRY),
+    HOT_DESERT (OverworldClimate.DRY),
     WASTELAND (null),
     NETHER (null);
 
-    public final BiomeType biomeType;
+    public final OverworldClimate biomeType;
     private int totalBiomesWeight;
     private int totalIslandBiomesWeight;
 
     private ArrayList<WeightedBiomeEntry> landBiomes = Lists.newArrayList();
     private ArrayList<WeightedBiomeEntry> islandBiomes = Lists.newArrayList();
 
-    BOPClimates(BiomeType biomeType)
+    BOPClimates(OverworldClimate biomeType)
     {
         this.biomeType = biomeType;
     }
@@ -80,12 +82,12 @@ public enum BOPClimates
         return this;
     }
 
-    public RegistryKey<Biome> getRandomBiome(INoiseRandom context, RegistryKey<Biome> fallback)
+    public RegistryKey<Biome> getRandomBiome(ChunkRandom context, RegistryKey<Biome> fallback)
     {
         if (this.totalBiomesWeight == 0)
             return fallback;
 
-        int weight = context.nextRandom(this.totalBiomesWeight);
+        int weight = context.next(this.totalBiomesWeight);
         Iterator<WeightedBiomeEntry> iterator = this.landBiomes.iterator();
         WeightedBiomeEntry item;
         do
@@ -97,12 +99,12 @@ public enum BOPClimates
         return item.biome;
     }
 
-    public RegistryKey<Biome> getRandomIslandBiome(INoiseRandom context, RegistryKey<Biome> fallback)
+    public RegistryKey<Biome> getRandomIslandBiome(ChunkRandom context, RegistryKey<Biome> fallback)
     {
         if (this.totalIslandBiomesWeight == 0)
             return fallback;
 
-        int weight = context.nextRandom(this.totalIslandBiomesWeight);
+        int weight = context.next(this.totalIslandBiomesWeight);
         Iterator<WeightedBiomeEntry> iterator = this.islandBiomes.iterator();
         WeightedBiomeEntry item;
         do
@@ -114,9 +116,9 @@ public enum BOPClimates
         return item.biome;
     }
 
-    public RegistryKey<Biome> getRandomOceanBiome(INoiseRandom context, boolean deep)
+    public RegistryKey<Biome> getRandomOceanBiome(ChunkRandom context, boolean deep)
     {
-        return (deep ? Biomes.DEEP_OCEAN : Biomes.OCEAN);
+        return (deep ? BiomeKeys.DEEP_OCEAN : BiomeKeys.OCEAN);
     }
 
     public ImmutableList<WeightedBiomeEntry> getLandBiomes()
@@ -131,7 +133,7 @@ public enum BOPClimates
 
     private WeightedBiomeEntry getDefaultWeightedBiomeEntry()
     {
-        return new WeightedBiomeEntry(100, Biomes.OCEAN);
+        return new WeightedBiomeEntry(100, BiomeKeys.OCEAN);
     }
 
     private static BOPClimates[] values = BOPClimates.values();
@@ -203,7 +205,7 @@ public enum BOPClimates
         {
             for (WeightedBiomeEntry entry : climate.landBiomes)
             {
-                System.out.println(climate.name()+" "+entry.biome.location()+" "+entry.weight);
+                System.out.println(climate.name()+" "+entry.biome.getValue()+" "+entry.weight);
             }
         }
     }

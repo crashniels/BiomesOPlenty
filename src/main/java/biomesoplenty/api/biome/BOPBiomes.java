@@ -8,9 +8,9 @@
 package biomesoplenty.api.biome;
 
 import biomesoplenty.core.BiomesOPlenty;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 
 public class BOPBiomes
@@ -99,6 +99,6 @@ public class BOPBiomes
 
     private static RegistryKey<Biome> register(String name)
     {
-        return RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(BiomesOPlenty.MOD_ID, name));
+        return RegistryKey.of(Registry.BIOME_KEY, new Identifier(BiomesOPlenty.MOD_ID, name));
     }
 }

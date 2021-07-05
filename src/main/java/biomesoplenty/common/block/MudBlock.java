@@ -7,34 +7,26 @@
  ******************************************************************************/
 package biomesoplenty.common.block;
 
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraftforge.common.PlantType;
+import net.minecraft.world.BlockView;
 
 public class MudBlock extends Block
 {
-    public MudBlock(Block.Properties properties)
+    public MudBlock(FabricBlockSettings properties)
     {
         super(properties);
     }
 
     @Override
-    public void stepOn(World worldIn, BlockPos pos, Entity entityIn)
+    public void onEntityLand(BlockView world, Entity entity)
     {
-        entityIn.setDeltaMovement(entityIn.getDeltaMovement().multiply(0.5D, 1.0D, 0.5D));
+        entity.setVelocity(entity.getVelocity().multiply(0.5D, 1.0D, 0.5D));
     }
-
+    /*
     @Override
-    public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, net.minecraftforge.common.IPlantable plantable)
+    public boolean canSustainPlant(BlockState state, BlockView world, BlockPos pos, Direction facing, net.minecraftforge.common.IPlantable plantable)
     {
         PlantType type = plantable.getPlantType(world, pos.relative(facing));
 
@@ -51,4 +43,5 @@ public class MudBlock extends Block
 
         return false;
     }
+    */
 }

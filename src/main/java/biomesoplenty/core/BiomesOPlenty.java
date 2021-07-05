@@ -11,6 +11,8 @@ package biomesoplenty.core;
 import biomesoplenty.client.BOPClassicPack;
 import biomesoplenty.client.renderer.BoatRendererBOP;
 import biomesoplenty.init.*;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourcePackInfo;
 import net.minecraft.util.ResourceLocation;
@@ -26,44 +28,28 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(value = BiomesOPlenty.MOD_ID)
-public class BiomesOPlenty
+public class BiomesOPlenty implements ModInitializer
 {
     public static final String MOD_ID = "biomesoplenty";
 
     public static BiomesOPlenty instance;
-    public static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
-
+    
     public static Logger logger = LogManager.getLogger(MOD_ID);
 
     public BiomesOPlenty()
     {
     	instance = this;
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
-
-        ModBiomes.setup();
-        ModConfig.setup();
+        //ModBiomes.setup();
+        //ModConfig.setup();
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
-        event.enqueueWork(() ->
-        {
-            ModVanillaCompat.setup();
-        });
-    }
-
-    private void clientSetup(final FMLClientSetupEvent event)
-    {
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.boat, BoatRendererBOP::new);
-    }
-
-    private void loadComplete(final FMLLoadCompleteEvent event) // PostRegistrationEven
-    {
-        proxy.init();
-        ModCompatibility.setup();
+    @Override
+    public void onInitialize() {
+        ModPaintings.registerPaintingMotives();
+        ModSounds.registerSounds();
+        ModItems.registerItems();
+        ModBlocks.registerBlocks();
+        ModVanillaCompat.setup();
     }
 }

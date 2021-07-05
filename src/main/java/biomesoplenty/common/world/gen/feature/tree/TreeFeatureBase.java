@@ -11,15 +11,7 @@ import biomesoplenty.api.block.BOPBlocks;
 import biomesoplenty.common.util.block.BlockUtil;
 import biomesoplenty.common.util.block.IBlockPosQuery;
 import net.minecraft.block.*;
-import net.minecraft.state.Property;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldWriter;
-import net.minecraft.world.gen.IWorldGenerationReader;
-import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.gen.feature.TreeFeature;
 
 import java.util.Random;
@@ -116,7 +108,7 @@ public abstract class TreeFeatureBase extends TreeFeature
         this.maxHeight = maxHeight;
     }
 
-    public boolean placeLeaves(IWorld world, BlockPos pos, Set<BlockPos> changedBlocks, MutableBoundingBox boundingBox)
+    public boolean placeLeaves(World world, BlockPos pos, Set<BlockPos> changedBlocks, MutableBoundingBox boundingBox)
     {
         if (this.replace.matches(world, pos))
         {
@@ -126,12 +118,12 @@ public abstract class TreeFeatureBase extends TreeFeature
         return false;
     }
 
-    public boolean placeLog(IWorld world, BlockPos pos, Set<BlockPos> changedBlocks, MutableBoundingBox boundingBox)
+    public boolean placeLog(World world, BlockPos pos, Set<BlockPos> changedBlocks, MutableBoundingBox boundingBox)
     {
         return this.placeLog(world, pos, null, changedBlocks, boundingBox);
     }
 
-    public boolean placeLog(IWorld world, BlockPos pos, Direction.Axis axis, Set<BlockPos> changedBlocks, MutableBoundingBox boundingBox)
+    public boolean placeLog(World world, BlockPos pos, Direction.Axis axis, Set<BlockPos> changedBlocks, MutableBoundingBox boundingBox)
     {
         BlockState directedLog = (axis != null && this.logAxisProperty != null) ? this.log.setValue(this.logAxisProperty, axis) : this.log;
         if (this.replace.matches(world, pos))
@@ -144,7 +136,7 @@ public abstract class TreeFeatureBase extends TreeFeature
         return false;
     }
 
-    public boolean setVine(IWorld world, Random rand, BlockPos pos, Direction side, int length)
+    public boolean setVine(World world, Random rand, BlockPos pos, Direction side, int length)
     {
         BlockState vineState = this.vine.getBlock() instanceof VineBlock ? this.vine.setValue(VineBlock.NORTH, Boolean.valueOf(side == Direction.NORTH)).setValue(VineBlock.EAST, Boolean.valueOf(side == Direction.EAST)).setValue(VineBlock.SOUTH, Boolean.valueOf(side == Direction.SOUTH)).setValue(VineBlock.WEST, Boolean.valueOf(side == Direction.WEST)) : this.vine;
         boolean setOne = false;
@@ -158,7 +150,7 @@ public abstract class TreeFeatureBase extends TreeFeature
         return setOne;
     }
 
-    public boolean setHanging(IWorld world, BlockPos pos)
+    public boolean setHanging(World world, BlockPos pos)
     {
         if (this.replace.matches(world, pos))
         {
@@ -167,7 +159,7 @@ public abstract class TreeFeatureBase extends TreeFeature
         return false;
     }
 
-    public boolean setTrunkFruit(IWorld world, BlockPos pos)
+    public boolean setTrunkFruit(World world, BlockPos pos)
     {
         if (this.trunkFruit == null) {return false;}
         if (this.replace.matches(world, pos))
@@ -177,7 +169,7 @@ public abstract class TreeFeatureBase extends TreeFeature
         return false;
     }
 
-    public boolean setAltLeaves(IWorld world, BlockPos pos, Set<BlockPos> changedBlocks, MutableBoundingBox boundingBox)
+    public boolean setAltLeaves(World world, BlockPos pos, Set<BlockPos> changedBlocks, MutableBoundingBox boundingBox)
     {
         if (this.replace.matches(world, pos))
         {
@@ -188,17 +180,17 @@ public abstract class TreeFeatureBase extends TreeFeature
     }
 
     @Override
-    public boolean doPlace(IWorldGenerationReader reader, Random random, BlockPos pos, Set<BlockPos> changedLogs, Set<BlockPos> changedLeaves, MutableBoundingBox boundingBox, BaseTreeFeatureConfig config)
+    public boolean doPlace(WorldGenerationReader reader, Random random, BlockPos pos, Set<BlockPos> changedLogs, Set<BlockPos> changedLeaves, MutableBoundingBox boundingBox, BaseTreeFeatureConfig config)
     {
-        return place(changedLogs, changedLeaves, (IWorld)reader, random, pos, boundingBox);
+        return place(changedLogs, changedLeaves, (World)reader, random, pos, boundingBox);
     }
 
-    protected boolean place(Set<BlockPos> changedLogs, Set<BlockPos> changedLeaves, IWorld world, Random rand, BlockPos position, MutableBoundingBox boundingBox)
+    protected boolean place(Set<BlockPos> changedLogs, Set<BlockPos> changedLeaves, World world, Random rand, BlockPos position, MutableBoundingBox boundingBox)
     {
         return false;
     }
 
-    protected boolean placeBlock(IWorld world, BlockPos pos, BlockState state, Set<BlockPos> changedBlocks, MutableBoundingBox boundingBox)
+    protected boolean placeBlock(World world, BlockPos pos, BlockState state, Set<BlockPos> changedBlocks, MutableBoundingBox boundingBox)
     {
         if (!isFree(world, pos))
         {

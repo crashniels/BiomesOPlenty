@@ -3,11 +3,7 @@ package biomesoplenty.common.item;
 import biomesoplenty.common.entity.item.BoatEntityBOP;
 import biomesoplenty.common.entity.item.BoatEntityBOP.BoatModel;
 import net.minecraft.block.DispenserBlock;
-import net.minecraft.dispenser.DefaultDispenseItemBehavior;
-import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 

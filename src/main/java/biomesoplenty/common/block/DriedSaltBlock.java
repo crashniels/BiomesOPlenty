@@ -7,20 +7,17 @@
  ******************************************************************************/
 package biomesoplenty.common.block;
 
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraftforge.common.PlantType;
 
 public class DriedSaltBlock extends Block
 {
-    public DriedSaltBlock(Block.Properties properties)
+    public DriedSaltBlock(FabricBlockSettings properties)
     {
         super(properties);
     }
     
+    /*
     @Override
     public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, net.minecraftforge.common.IPlantable plantable) {
         PlantType type = plantable.getPlantType(world, pos.relative(facing));
@@ -31,4 +28,5 @@ public class DriedSaltBlock extends Block
         else if (type == PlantType.PLAINS) return true;
         return false;
     }
+    */
 }

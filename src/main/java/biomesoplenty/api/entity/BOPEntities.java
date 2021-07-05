@@ -8,7 +8,7 @@
 package biomesoplenty.api.entity;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.BoatEntity;
+import net.minecraft.entity.vehicle.BoatEntity;
 
 public class BOPEntities
 {

@@ -3,22 +3,24 @@ package biomesoplenty.client.renderer;
 import biomesoplenty.common.entity.item.BoatEntityBOP;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.model.BoatModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import static biomesoplenty.core.BiomesOPlenty.MOD_ID;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class BoatRendererBOP extends EntityRenderer<BoatEntityBOP> {
     protected final BoatModel model = new BoatModel();
 
@@ -58,21 +60,21 @@ public class BoatRendererBOP extends EntityRenderer<BoatEntityBOP> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(BoatEntityBOP entity) {
+    public Identifier getTextureLocation(BoatEntityBOP entity) {
         return BOAT_TEXTURE_LOCATIONS[entity.getModel().ordinal()];
     }
 
-    private static final ResourceLocation[] BOAT_TEXTURE_LOCATIONS = new ResourceLocation[] {
-            new ResourceLocation(MOD_ID, "textures/entity/boat/fir.png"),
-            new ResourceLocation(MOD_ID, "textures/entity/boat/redwood.png"),
-            new ResourceLocation(MOD_ID, "textures/entity/boat/cherry.png"),
-            new ResourceLocation(MOD_ID, "textures/entity/boat/mahogany.png"),
-            new ResourceLocation(MOD_ID, "textures/entity/boat/jacaranda.png"),
-            new ResourceLocation(MOD_ID, "textures/entity/boat/palm.png"),
-            new ResourceLocation(MOD_ID, "textures/entity/boat/willow.png"),
-            new ResourceLocation(MOD_ID, "textures/entity/boat/dead.png"),
-            new ResourceLocation(MOD_ID, "textures/entity/boat/magic.png"),
-            new ResourceLocation(MOD_ID, "textures/entity/boat/umbran.png"),
-            new ResourceLocation(MOD_ID, "textures/entity/boat/hellbark.png")
+    private static final Identifier[] BOAT_TEXTURE_LOCATIONS = new Identifier[] {
+            new Identifier(MOD_ID, "textures/entity/boat/fir.png"),
+            new Identifier(MOD_ID, "textures/entity/boat/redwood.png"),
+            new Identifier(MOD_ID, "textures/entity/boat/cherry.png"),
+            new Identifier(MOD_ID, "textures/entity/boat/mahogany.png"),
+            new Identifier(MOD_ID, "textures/entity/boat/jacaranda.png"),
+            new Identifier(MOD_ID, "textures/entity/boat/palm.png"),
+            new Identifier(MOD_ID, "textures/entity/boat/willow.png"),
+            new Identifier(MOD_ID, "textures/entity/boat/dead.png"),
+            new Identifier(MOD_ID, "textures/entity/boat/magic.png"),
+            new Identifier(MOD_ID, "textures/entity/boat/umbran.png"),
+            new Identifier(MOD_ID, "textures/entity/boat/hellbark.png")
     };
 }
