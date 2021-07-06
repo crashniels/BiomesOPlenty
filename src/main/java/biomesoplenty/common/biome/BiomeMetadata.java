@@ -10,11 +10,12 @@ package biomesoplenty.common.biome;
 import biomesoplenty.api.enums.BOPClimates;
 import biomesoplenty.common.util.biome.BiomeUtil;
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biomes;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.biome.Biome;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;

@@ -8,7 +8,7 @@ import java.util.Random;
 public class PalmTree extends TreeDefaultConfig
 {
    @Override
-   protected Feature<? extends BaseTreeFeatureConfig> getFeature(Random random)
+   protected Feature<? extends TreeFeatureConfig> getFeature(Random random)
    {
       return BOPFeatures.PALM_TREE;
    }

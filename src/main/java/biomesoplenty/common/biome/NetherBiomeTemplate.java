@@ -7,11 +7,11 @@
  ******************************************************************************/
 package biomesoplenty.common.biome;
 
-import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraft.world.biome.SpawnSettings;
 
 public class NetherBiomeTemplate extends BiomeTemplate
 {
-    protected void configureDefaultMobSpawns(MobSpawnInfo.Builder builder)
+    protected void configureDefaultMobSpawns(SpawnSettings.Builder builder)
     {
         // Do nothing
     }

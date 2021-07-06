@@ -8,7 +8,7 @@ import java.util.Random;
 public class DeadTree extends TreeDefaultConfig
 {
    @Override
-   protected Feature<? extends BaseTreeFeatureConfig> getFeature(Random random)
+   protected Feature<? extends TreeFeatureConfig> getFeature(Random random)
    {
       return random.nextInt(10) == 0 ? BOPFeatures.DYING_TREE : BOPFeatures.SMALL_DEAD_TREE;
    }

@@ -1,22 +1,12 @@
 package biomesoplenty.client.renderer;
 
 import biomesoplenty.common.entity.item.BoatEntityBOP;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-
+import biomesoplenty.common.entity.item.BoatEntityBOP.BoatModel;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.model.BoatModel;
-import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3f;
 
 import static biomesoplenty.core.BiomesOPlenty.MOD_ID;
 

@@ -19,6 +19,9 @@
   "entrypoints": {
     "main": [
       "biomesoplenty.core.BiomesOPlenty"
+    ],
+    "client": [
+      "biomesoplenty.core.BiomesOPlentyClient"
     ]
   },
   "mixins": [

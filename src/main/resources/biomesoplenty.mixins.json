@@ -4,7 +4,6 @@
   "compatibilityLevel": "JAVA_16",
   "refmap": "biomesoplenty-refmap.json",
   "mixins": [
-    "item.AxeItemAccessor"
   ],
   "client": [
   ],

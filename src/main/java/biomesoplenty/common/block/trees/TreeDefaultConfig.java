@@ -42,7 +42,7 @@ public abstract class TreeDefaultConfig extends SaplingGenerator
         else
         {
             world.setBlockState(pos, Blocks.AIR.getDefaultState(), 4);
-            if (feature.generate(new FeatureContext(world, generator, random, pos, ConfiguredFeatures.OAK.getConfig())))
+            if (feature.generate(new FeatureContext<TreeFeatureConfig>(world, generator, random, pos, ConfiguredFeatures.OAK.getConfig())))
             {
                 return true;
             }

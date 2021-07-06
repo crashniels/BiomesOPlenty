@@ -8,7 +8,7 @@ import java.util.Random;
 public class WhiteCherryTree extends TreeDefaultConfig
 {
    @Override
-   protected Feature<? extends BaseTreeFeatureConfig> getFeature(Random random)
+   protected Feature<? extends TreeFeatureConfig> getFeature(Random random)
    {
       return (random.nextInt(10) == 0 ? BOPFeatures.BIG_WHITE_CHERRY_TREE : BOPFeatures.WHITE_CHERRY_TREE);
    }

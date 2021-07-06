@@ -8,13 +8,13 @@
 package biomesoplenty.common.util.block;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.state.Property;
-import net.minecraft.util.Direction;
+import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.Heightmap;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
-import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.gen.Heightmap;
 
 import java.util.Collection;
 
@@ -25,7 +25,7 @@ public class BlockUtil
     {
         for (Property property : log.getProperties())
         {
-            Collection allowedValues = property.getPossibleValues();
+            Collection allowedValues = property.getValues();
             if (allowedValues.contains(Direction.Axis.X) && allowedValues.contains(Direction.Axis.Y) && allowedValues.contains(Direction.Axis.Z))
             {
                 return property;
@@ -34,9 +34,9 @@ public class BlockUtil
         return null;
     }
 
-    public static BlockPos getTopSolidOrLiquidBlock(IWorld world, int x, int z)
+    public static BlockPos getTopSolidOrLiquidBlock(World world, int x, int z)
     {
-        IChunk chunk = world.getChunk(x >> 4, z >> 4, ChunkStatus.FULL);
-        return new BlockPos(x, chunk.getHeight(Heightmap.Type.MOTION_BLOCKING, x & 15, z & 15), z);
+        Chunk chunk = world.getChunk(x >> 4, z >> 4, ChunkStatus.FULL);
+        return new BlockPos(x, chunk.sampleHeightmap(Heightmap.Type.MOTION_BLOCKING, x & 15, z & 15), z);
     }
 }

@@ -8,13 +8,13 @@ import java.util.Random;
 public class RedwoodTree extends BigTreeDefaultConfig
 {
    @Override
-   protected Feature<? extends BaseTreeFeatureConfig> getFeature(Random random)
+   protected Feature<? extends TreeFeatureConfig> getFeature(Random random)
    {
       return BOPFeatures.REDWOOD_TREE;
    }
 
    @Override
-   protected Feature<? extends BaseTreeFeatureConfig> getBigFeature(Random random)
+   protected Feature<? extends TreeFeatureConfig> getBigFeature(Random random)
    {
       return BOPFeatures.REDWOOD_TREE_MEDIUM;
    }

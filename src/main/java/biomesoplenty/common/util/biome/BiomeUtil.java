@@ -13,12 +13,9 @@ import biomesoplenty.common.biome.BiomeMetadata;
 import biomesoplenty.core.BiomesOPlenty;
 import biomesoplenty.init.ModBiomes;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistry;
 
 public class BiomeUtil
 {

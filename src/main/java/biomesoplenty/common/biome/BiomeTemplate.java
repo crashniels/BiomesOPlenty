@@ -8,12 +8,12 @@
 package biomesoplenty.common.biome;
 
 import biomesoplenty.api.enums.BOPClimates;
-import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeGenerationSettings;
-import net.minecraft.world.biome.Biomes;
-import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraft.world.biome.BiomeKeys;
+import net.minecraft.world.biome.GenerationSettings;
+import net.minecraft.world.biome.SpawnSettings;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,19 +22,19 @@ import java.util.function.BiFunction;
 public class BiomeTemplate
 {
     private Map<BOPClimates, Integer> weightMap = new HashMap<BOPClimates, Integer>();
-    private RegistryKey<Biome> beachBiome = Biomes.BEACH;
-    private RegistryKey<Biome> riverBiome = Biomes.RIVER;
+    private RegistryKey<Biome> beachBiome = BiomeKeys.BEACH;
+    private RegistryKey<Biome> riverBiome = BiomeKeys.RIVER;
     private BiFunction<Double, Double, Integer> foliageColorFunction;
     private BiFunction<Double, Double, Integer> grassColorFunction;
     private BiFunction<Double, Double, Integer> waterColorFunction;
 
     protected void configureBiome(Biome.Builder builder) {}
-    protected void configureGeneration(BiomeGenerationSettings.Builder builder) {}
-    protected void configureMobSpawns(MobSpawnInfo.Builder builder) {}
+    protected void configureGeneration(GenerationSettings.Builder builder) {}
+    protected void configureMobSpawns(SpawnSettings.Builder builder) {}
 
-    protected void configureDefaultMobSpawns(MobSpawnInfo.Builder builder)
+    protected void configureDefaultMobSpawns(SpawnSettings.Builder builder)
     {
-        builder.setPlayerCanSpawn();
+        builder.playerSpawnFriendly();
     }
 
     public final Biome build()
@@ -42,15 +42,15 @@ public class BiomeTemplate
         Biome.Builder biomeBuilder = new Biome.Builder();
 
         // Configure the biome generation
-        BiomeGenerationSettings.Builder biomeGenBuilder = new BiomeGenerationSettings.Builder();
+        GenerationSettings.Builder biomeGenBuilder = new GenerationSettings.Builder();
         this.configureGeneration(biomeGenBuilder);
         biomeBuilder.generationSettings(biomeGenBuilder.build());
 
         // Configure mob spawning
-        MobSpawnInfo.Builder mobSpawnBuilder = new MobSpawnInfo.Builder();
+        SpawnSettings.Builder mobSpawnBuilder = new SpawnSettings.Builder();
         this.configureDefaultMobSpawns(mobSpawnBuilder);
         this.configureMobSpawns(mobSpawnBuilder);
-        biomeBuilder.mobSpawnSettings(mobSpawnBuilder.build());
+        biomeBuilder.spawnSettings(mobSpawnBuilder.build());
 
         // Configure and build the biome
         this.configureBiome(biomeBuilder);

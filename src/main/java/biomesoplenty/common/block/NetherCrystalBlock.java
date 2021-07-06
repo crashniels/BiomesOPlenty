@@ -7,26 +7,25 @@
  ******************************************************************************/
 package biomesoplenty.common.block;
 
-import com.google.common.jimfs.PathType;
-
 import biomesoplenty.api.block.BOPBlocks;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.AbstractSkullBlock;
-import net.minecraft.block.BarrelBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.HorizontalFacingBlock;
+import net.minecraft.block.HorizontalConnectingBlock;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.block.WallMountedBlock;
+import net.minecraft.block.enums.WallMountLocation;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldView;
 
-public class NetherCrystalBlock extends HorizontalFacingBlock
+public class NetherCrystalBlock extends HorizontalConnectingBlock
 {
     protected static final VoxelShape FLOOR_AABB = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
     protected static final VoxelShape CEILING_AABB = Block.createCuboidShape(2.0D, 3.0D, 2.0D, 14.0D, 16.0D, 14.0D);
@@ -37,8 +36,9 @@ public class NetherCrystalBlock extends HorizontalFacingBlock
 
     public NetherCrystalBlock(FabricBlockSettings properties)
     {
-        super(properties);
-        this.appendProperties(this.stateManager.getStates().setValue(FACE, AttachFace.FLOOR).setValue(FACING, Direction.NORTH));
+        //Broken idk
+        super(2.0F, 2.0F, 16.0F, 16.0F, 24.0F, properties);
+        this.setDefaultState(this.getDefaultState().with(WallMountedBlock.FACE, WallMountLocation.FLOOR).with(Properties.FACING, Direction.NORTH));
     }
 
     protected static boolean mayPlaceOn(BlockState state, BlockView worldIn, BlockPos pos) {
@@ -46,19 +46,21 @@ public class NetherCrystalBlock extends HorizontalFacingBlock
         return block == Blocks.NETHERRACK || block == Blocks.NETHER_QUARTZ_ORE || block == Blocks.BLACKSTONE || block == BOPBlocks.nether_crystal_block;
     }
 
+    /*
     @Override
     public boolean canSurvive(BlockState state, WorldView worldIn, BlockPos pos) {
         return canAttach(worldIn, pos, getConnectedDirection(state).getOpposite());
     }
+    */
 
-    public static boolean canAttach(WorldView p_220185_0_, BlockPos p_220185_1_, Direction p_220185_2_) {
-        BlockPos blockpos = p_220185_1_.relative(p_220185_2_);
-        return mayPlaceOn(p_220185_0_.getBlockState(blockpos), p_220185_0_, blockpos);
+    public static boolean canAttach(WorldView worldview, BlockPos pos, Direction direction) {
+        BlockPos blockpos = pos.offset(direction);
+        return mayPlaceOn(worldview.getBlockState(blockpos), worldview, blockpos);
     }
 
     public VoxelShape getShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        Direction direction = state.get(FACING);
-        switch(state.get(FACE))
+        Direction direction = state.get(Properties.FACING);
+        switch(state.get(WallMountedBlock.FACE))
         {
             case FLOOR:
                 return FLOOR_AABB;
@@ -82,7 +84,7 @@ public class NetherCrystalBlock extends HorizontalFacingBlock
     }
 
     @Override
-    public boolean propagatesSkylightDown(BlockState state, BlockView reader, BlockPos pos) {
+    public boolean isTranslucent(BlockState state, BlockView reader, BlockPos pos) {
         return state.getFluidState().isEmpty();
     }
 
@@ -93,6 +95,6 @@ public class NetherCrystalBlock extends HorizontalFacingBlock
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builderIn) {
-        builderIn.add(FACING, FACE);
+        builderIn.add(Properties.FACING, WallMountedBlock.FACE);
     }
 }

@@ -5,20 +5,18 @@ import biomesoplenty.api.item.BOPItems;
 import biomesoplenty.init.ModEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.tags.FluidTags;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
 
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -31,10 +29,10 @@ public class BoatEntityBOP extends BoatEntity {
     public BoatEntityBOP(World world, double x, double y, double z) {
         super(ModEntities.boat, world);
         setPos(x, y, z);
-        setDeltaMovement(Vector3d.ZERO);
-        this.xo = x;
-        this.yo = y;
-        this.zo = z;
+        setVelocity(Vec3d.ZERO);
+        this.prevX = x;
+        this.prevY = y;
+        this.prevZ = z;
     }
 
     public BoatEntityBOP(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
@@ -42,18 +40,18 @@ public class BoatEntityBOP extends BoatEntity {
     }
 
     @Override
-    public IPacket<?> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+    public Packet<?> createSpawnPacket() {
+        return new EntitySpawnS2CPacket(this);
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundNBT nbt) {
+    protected void writeCustomDataToNbt(NbtCompound nbt) {
         nbt.putString("model", getModel().getName());
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundNBT nbt) {
-        if (nbt.contains("model", Constants.NBT.TAG_STRING)) {
+    protected void readCustomDataFromNbt(NbtCompound nbt) {
+        if (nbt.contains("model", 8 /*TAG_STRING*/)) {
             this.entityData.set(DATA_ID_TYPE, BoatModel.byName(nbt.getString("model")).ordinal());
         }
     }
