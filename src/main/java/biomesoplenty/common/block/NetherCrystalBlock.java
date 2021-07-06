@@ -46,12 +46,10 @@ public class NetherCrystalBlock extends HorizontalConnectingBlock
         return block == Blocks.NETHERRACK || block == Blocks.NETHER_QUARTZ_ORE || block == Blocks.BLACKSTONE || block == BOPBlocks.nether_crystal_block;
     }
 
-    /*
     @Override
-    public boolean canSurvive(BlockState state, WorldView worldIn, BlockPos pos) {
-        return canAttach(worldIn, pos, getConnectedDirection(state).getOpposite());
+    public boolean canPlaceAt(BlockState state, WorldView worldIn, BlockPos pos) {
+        return canAttach(worldIn, pos, state.get(Properties.HORIZONTAL_FACING).getOpposite());
     }
-    */
 
     public static boolean canAttach(WorldView worldview, BlockPos pos, Direction direction) {
         BlockPos blockpos = pos.offset(direction);

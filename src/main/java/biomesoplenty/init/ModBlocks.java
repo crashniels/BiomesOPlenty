@@ -20,6 +20,7 @@ import net.fabricmc.fabric.impl.client.indigo.renderer.IndigoRenderer;
 import net.minecraft.block.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderLayers;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.sound.BlockSoundGroup;
@@ -82,8 +83,8 @@ public class ModBlocks
         dried_salt = registerBlock(new DriedSaltBlock(FabricBlockSettings.of(Material.STONE, MapColor.OAK_TAN).strength(1.0F).breakByTool(FabricToolTags.PICKAXES, 0).sounds(new BlockSoundGroup(1.0F, 0.5F, SoundEvents.BLOCK_GRAVEL_BREAK, SoundEvents.BLOCK_GRAVEL_STEP, SoundEvents.BLOCK_GRAVEL_PLACE, SoundEvents.BLOCK_GRAVEL_HIT, SoundEvents.BLOCK_GRAVEL_FALL))), "dried_salt");
         flesh = registerBlock(new FleshBlock(FabricBlockSettings.of(Material.SPONGE, MapColor.TERRACOTTA_RED).strength(0.4F).breakByTool(FabricToolTags.AXES, 0).sounds(new BlockSoundGroup(1.0F, 0.5F, SoundEvents.BLOCK_CORAL_BLOCK_BREAK, SoundEvents.BLOCK_CORAL_BLOCK_STEP, SoundEvents.BLOCK_CORAL_BLOCK_PLACE, SoundEvents.BLOCK_CORAL_BLOCK_HIT, SoundEvents.BLOCK_CORAL_BLOCK_FALL))), "flesh");
 
-        nether_crystal_block = registerBlock(new Block(FabricBlockSettings.of(Material.GLASS, MapColor.DARK_CRIMSON).strength(0.4F).breakByTool(FabricToolTags.PICKAXES, 0).sounds(new BlockSoundGroup(1.0F, 0.75F, SoundEvents.BLOCK_GLASS_BREAK, SoundEvents.BLOCK_GLASS_STEP, SoundEvents.BLOCK_GLASS_PLACE, SoundEvents.BLOCK_GLASS_HIT, SoundEvents.BLOCK_GLASS_FALL)).lightLevel((state) -> 10)), "nether_crystal_block");
-        //nether_crystal = registerBlock(new NetherCrystalBlock(FabricBlockSettings.of(Material.GLASS, MapColor.DARK_CRIMSON).noCollision().strength(0.3F).breakByTool(FabricToolTags.PICKAXES, 0).sounds(new BlockSoundGroup(1.0F, 0.75F, SoundEvents.BLOCK_GLASS_BREAK, SoundEvents.BLOCK_GLASS_STEP, SoundEvents.BLOCK_GLASS_PLACE, SoundEvents.BLOCK_GLASS_HIT, SoundEvents.BLOCK_GLASS_FALL)).lightLevel((state) -> 8)), "nether_crystal");
+        nether_crystal_block = registerBlock(new Block(FabricBlockSettings.of(Material.GLASS, MapColor.DARK_CRIMSON).strength(0.4F).breakByTool(FabricToolTags.PICKAXES, 0).sounds(new BlockSoundGroup(1.0F, 0.75F, SoundEvents.BLOCK_GLASS_BREAK, SoundEvents.BLOCK_GLASS_STEP, SoundEvents.BLOCK_GLASS_PLACE, SoundEvents.BLOCK_GLASS_HIT, SoundEvents.BLOCK_GLASS_FALL)).luminance((state) -> 10)), "nether_crystal_block");
+        //nether_crystal = registerBlock(new NetherCrystalBlock(FabricBlockSettings.of(Material.GLASS, MapColor.DARK_CRIMSON).noCollision().strength(0.3F).breakByTool(FabricToolTags.PICKAXES, 0).sounds(new BlockSoundGroup(1.0F, 0.75F, SoundEvents.BLOCK_GLASS_BREAK, SoundEvents.BLOCK_GLASS_STEP, SoundEvents.BLOCK_GLASS_PLACE, SoundEvents.BLOCK_GLASS_HIT, SoundEvents.BLOCK_GLASS_FALL)).luminance((state) -> 8)), "nether_crystal");
 
         toadstool_block = registerBlock(new MushroomBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.ORANGE).strength(0.2F).sounds(BlockSoundGroup.WOOD)), "toadstool_block");
         glowshroom_block = registerBlock(new MushroomBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.DIAMOND_BLUE).strength(0.2F).sounds(BlockSoundGroup.WOOD).luminance((state) -> 10)), "glowshroom_block");
@@ -279,28 +280,28 @@ public class ModBlocks
         hellbark_trapdoor = registerBlock(new TrapDoorBlockBOP(AbstractBlock.Settings.of(Material.WOOD, MapColor.TERRACOTTA_GRAY).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque()), "hellbark_trapdoor");
         hellbark_pressure_plate = registerBlock(new PressurePlateBlockBOP(PressurePlateBlock.ActivationRule.EVERYTHING, AbstractBlock.Settings.of(Material.WOOD, hellbark_planks.getDefaultMapColor()).noCollision().strength(0.5F).sounds(BlockSoundGroup.WOOD)), "hellbark_pressure_plate");
         hellbark_button = registerBlock(new WoodenButtonBlockBOP(AbstractBlock.Settings.of(Material.DECORATION).noCollision().strength(0.5F).sounds(BlockSoundGroup.WOOD)), "hellbark_button");
-        /*
+        
         //Flowers
-        rose = registerBlock(new FlowerBlockBOP(Effects.MOVEMENT_SPEED, 7, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "rose");
-        violet = registerBlock(new FlowerBlockBOP(Effects.CONFUSION, 10, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "violet");
-        lavender = registerBlock(new FlowerBlockBOP(Effects.HEALTH_BOOST, 5, AbstractBlock.Settings.of(Material.PLANT, MapColor.COLOR_MAGENTA).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "lavender");
-        wildflower = registerBlock(new FlowerBlockBOP(Effects.HUNGER, 10, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "wildflower");
-        orange_cosmos = registerBlock(new FlowerBlockBOP(Effects.ABSORPTION, 7, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "orange_cosmos");
-        pink_daffodil = registerBlock(new FlowerBlockBOP(Effects.INVISIBILITY, 7, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "pink_daffodil");
-        pink_hibiscus = registerBlock(new FlowerBlockBOP(Effects.REGENERATION, 5, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "pink_hibiscus");
-        glowflower = registerBlock(new FlowerBlockBOP(Effects.GLOWING, 10, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).lightLevel((state) -> 9)), "glowflower");
-        wilted_lily = registerBlock(new FlowerBlockBOP(Effects.UNLUCK, 5, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "wilted_lily");
-        burning_blossom = registerBlock(new FlowerBlockBOP(Effects.FIRE_RESISTANCE, 7, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).lightLevel((state) -> 7)), "burning_blossom");
-
+        rose = registerBlock(new FlowerBlockBOP(StatusEffects.SPEED, 7, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "rose");
+        violet = registerBlock(new FlowerBlockBOP(StatusEffects.NAUSEA, 10, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "violet");
+        lavender = registerBlock(new FlowerBlockBOP(StatusEffects.HEALTH_BOOST, 5, AbstractBlock.Settings.of(Material.PLANT, MapColor.MAGENTA).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "lavender");
+        wildflower = registerBlock(new FlowerBlockBOP(StatusEffects.HUNGER, 10, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "wildflower");
+        orange_cosmos = registerBlock(new FlowerBlockBOP(StatusEffects.ABSORPTION, 7, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "orange_cosmos");
+        pink_daffodil = registerBlock(new FlowerBlockBOP(StatusEffects.INVISIBILITY, 7, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "pink_daffodil");
+        pink_hibiscus = registerBlock(new FlowerBlockBOP(StatusEffects.REGENERATION, 5, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "pink_hibiscus");
+        glowflower = registerBlock(new FlowerBlockBOP(StatusEffects.GLOWING, 10, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).luminance((state) -> 9)), "glowflower");
+        wilted_lily = registerBlock(new FlowerBlockBOP(StatusEffects.UNLUCK, 5, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "wilted_lily");
+        burning_blossom = registerBlock(new FlowerBlockBOP(StatusEffects.FIRE_RESISTANCE, 7, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).luminance((state) -> 7)), "burning_blossom");
+        
         //Tall Flowers
         blue_hydrangea = registerBlock(new TallFlowerBlockBOP(AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "blue_hydrangea");
         goldenrod = registerBlock(new TallFlowerBlockBOP(AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "goldenrod");
-
+        
         //Vines
         willow_vine = registerBlock(new VineBlock(AbstractBlock.Settings.of(Material.REPLACEABLE_PLANT).ticksRandomly().noCollision().strength(0.2F).sounds(BlockSoundGroup.GRASS)), "willow_vine");
         spanish_moss = registerBlock(new SpanishMossBottomBlock(AbstractBlock.Settings.of(Material.REPLACEABLE_PLANT).ticksRandomly().noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "spanish_moss");
         spanish_moss_plant = registerBlockNoGroup(new SpanishMossBlock(AbstractBlock.Settings.of(Material.REPLACEABLE_PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "spanish_moss_plant");
-
+        /*
         //Plants
         sprout = registerBlock(new FoliageBlockBOP(AbstractBlock.Settings.of(Material.REPLACEABLE_PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "sprout");
         bush = registerBlock(new FoliageBlockBOP(AbstractBlock.Settings.of(Material.REPLACEABLE_PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "bush");
@@ -320,7 +321,7 @@ public class ModBlocks
         dead_branch = registerBlock(new DeadBranchBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.GRAY).noCollision().breakInstantly().sounds(BlockSoundGroup.WOOD)), "dead_branch");
         bramble = registerBlock(new BrambleBlock(AbstractBlock.Settings.of(Material.PLANT, MapColor.NETHER).strength(0.4F).harvestLevel(0).harvestTool(ToolType.AXE).sounds(BlockSoundGroup.WOOD)), "bramble");
         toadstool = registerBlock(new MushroomBlockBOP(AbstractBlock.Settings.of(Material.PLANT, MapColor.ORANGE).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "toadstool");
-        glowshroom = registerBlock(new MushroomBlockBOP(AbstractBlock.Settings.of(Material.PLANT, MapColor.DIAMOND).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).lightLevel((state) -> 6)), "glowshroom");
+        glowshroom = registerBlock(new MushroomBlockBOP(AbstractBlock.Settings.of(Material.PLANT, MapColor.DIAMOND).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).luminance((state) -> 6)), "glowshroom");
 
         //Potted Plants
         potted_origin_sapling = registerBlockNoGroup(new FlowerPotBlock(origin_sapling, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly()), "potted_origin_sapling");
@@ -348,13 +349,13 @@ public class ModBlocks
         potted_orange_cosmos = registerBlockNoGroup(new FlowerPotBlock(orange_cosmos, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly()), "potted_orange_cosmos");
         potted_pink_daffodil = registerBlockNoGroup(new FlowerPotBlock(pink_daffodil, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly()), "potted_pink_daffodil");
         potted_pink_hibiscus = registerBlockNoGroup(new FlowerPotBlock(pink_hibiscus, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly()), "potted_pink_hibiscus");
-        potted_glowflower = registerBlockNoGroup(new FlowerPotBlock(glowflower, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly().lightLevel((state) -> 9)), "potted_glowflower");
+        potted_glowflower = registerBlockNoGroup(new FlowerPotBlock(glowflower, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly().luminance((state) -> 9)), "potted_glowflower");
         potted_wilted_lily = registerBlockNoGroup(new FlowerPotBlock(wilted_lily, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly()), "potted_wilted_lily");
-        potted_burning_blossom = registerBlockNoGroup(new FlowerPotBlock(burning_blossom, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly().lightLevel((state) -> 7)), "potted_burning_blossom");
+        potted_burning_blossom = registerBlockNoGroup(new FlowerPotBlock(burning_blossom, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly().luminance((state) -> 7)), "potted_burning_blossom");
         potted_sprout = registerBlockNoGroup(new FlowerPotBlock(sprout, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly()), "potted_sprout");
         potted_clover = registerBlockNoGroup(new FlowerPotBlock(clover, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly()), "potted_clover");
         potted_toadstool = registerBlockNoGroup(new FlowerPotBlock(toadstool, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly()), "potted_toadstool");
-        potted_glowshroom = registerBlockNoGroup(new FlowerPotBlock(glowshroom, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly().lightLevel((state) -> 6)), "potted_glowshroom");
+        potted_glowshroom = registerBlockNoGroup(new FlowerPotBlock(glowshroom, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly().luminance((state) -> 6)), "potted_glowshroom");
         
         */
     }

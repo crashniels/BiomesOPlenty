@@ -8,38 +8,39 @@
 package biomesoplenty.common.block;
 
 import biomesoplenty.api.block.BOPBlocks;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerBlock;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.Effects;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.potion.Potions;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.WorldView;
 
 import java.util.Random;
 
 public class FlowerBlockBOP extends FlowerBlock
 {
-	protected static final VoxelShape NORMAL = Block.box(5.0D, 0.0D, 5.0D, 11.0D, 10.0D, 11.0D);
-	protected static final VoxelShape LARGE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
-    private final Effect stewEffect;
+	protected static final VoxelShape NORMAL = Block.createCuboidShape(5.0D, 0.0D, 5.0D, 11.0D, 10.0D, 11.0D);
+	protected static final VoxelShape LARGE = Block.createCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
+    private final StatusEffect stewEffect;
     private final int stewEffectDuration;
 	
-    public FlowerBlockBOP(Effect p_i49984_1_, int effectDuration, Block.Properties properties)
+    public FlowerBlockBOP(StatusEffect p_i49984_1_, int effectDuration, AbstractBlock.Settings properties)
     {
         super(p_i49984_1_, 0, properties);
         this.stewEffect = p_i49984_1_;
-        if (p_i49984_1_.isInstantenous()) {
+        if (p_i49984_1_.isInstant()) {
             this.stewEffectDuration = effectDuration;
         } else {
             this.stewEffectDuration = effectDuration * 20;
@@ -47,7 +48,7 @@ public class FlowerBlockBOP extends FlowerBlock
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext selectionContext)
+    public VoxelShape getOutlineShape(BlockState state, BlockView worldIn, BlockPos pos, ShapeContext selectionContext)
     {
     	Block block = state.getBlock();
         
@@ -60,24 +61,24 @@ public class FlowerBlockBOP extends FlowerBlock
     }
     
     @Override
-    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos)
+    public boolean canPlaceAt(BlockState state, WorldView worldIn, BlockPos pos)
     {
-        Block ground = worldIn.getBlockState(pos.below()).getBlock();
+        Block ground = worldIn.getBlockState(pos.down()).getBlock();
 
         if (this == BOPBlocks.wildflower)
         {
-            return ground == Blocks.SAND || ground == Blocks.RED_SAND || ground == BOPBlocks.white_sand || ground == BOPBlocks.orange_sand || ground == BOPBlocks.black_sand || super.canSurvive(state, worldIn, pos);
+            return ground == Blocks.SAND || ground == Blocks.RED_SAND || ground == BOPBlocks.white_sand || ground == BOPBlocks.orange_sand || ground == BOPBlocks.black_sand || super.canPlaceAt(state, worldIn, pos);
         }
         if (this == BOPBlocks.burning_blossom)
         {
-            return ground == Blocks.NETHERRACK || ground == Blocks.SOUL_SAND ||  ground == Blocks.SOUL_SOIL ||  ground == Blocks.CRIMSON_NYLIUM ||  ground == Blocks.WARPED_NYLIUM || super.canSurvive(state, worldIn, pos);
+            return ground == Blocks.NETHERRACK || ground == Blocks.SOUL_SAND ||  ground == Blocks.SOUL_SOIL ||  ground == Blocks.CRIMSON_NYLIUM ||  ground == Blocks.WARPED_NYLIUM || super.canPlaceAt(state, worldIn, pos);
         }
 
-        return super.canSurvive(state, worldIn, pos);
+        return super.canPlaceAt(state, worldIn, pos);
     }
     
     @Override
-    public void entityInside(BlockState stateIn, World worldIn, BlockPos pos, Entity entityIn)
+    public void onEntityCollision(BlockState stateIn, World worldIn, BlockPos pos, Entity entityIn)
     {
     	Block block = stateIn.getBlock();
     	
@@ -85,16 +86,16 @@ public class FlowerBlockBOP extends FlowerBlock
     	{
 	    	if (block == BOPBlocks.burning_blossom)
 	    	{
-	    		(entityIn).setSecondsOnFire(1);
+	    		(entityIn).setOnFireFor(1);
 	    	}
     	}
     }
     
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand)
+    @Environment(EnvType.CLIENT)
+    public void randomDisplayTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand)
     {
-       super.animateTick(stateIn, worldIn, pos, rand);
+       super.randomDisplayTick(stateIn, worldIn, pos, rand);
        Block block = stateIn.getBlock();
        
        if (block == BOPBlocks.burning_blossom)
@@ -111,12 +112,12 @@ public class FlowerBlockBOP extends FlowerBlock
     }
 
     @Override
-    public Effect getSuspiciousStewEffect() {
+    public StatusEffect getEffectInStew() {
         return this.stewEffect;
     }
 
     @Override
-    public int getEffectDuration() {
+    public int getEffectInStewDuration() {
         return this.stewEffectDuration;
     }
 }

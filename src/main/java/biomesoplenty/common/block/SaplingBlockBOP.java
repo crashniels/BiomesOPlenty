@@ -9,9 +9,11 @@ package biomesoplenty.common.block;
 
 import java.util.Random;
 
+import biomesoplenty.api.block.BOPBlocks;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SaplingBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.sapling.SaplingGenerator;
@@ -23,6 +25,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 
 public class SaplingBlockBOP extends SaplingBlock
 {
@@ -90,24 +93,22 @@ public class SaplingBlockBOP extends SaplingBlock
       this.grow(world, rand, pos, state);
    }
    
-   //Broken
-   /*
-   public boolean canSurvive(BlockState state, WorldView worldIn, BlockPos pos)
+   @Override
+   public boolean canPlaceAt(BlockState state, WorldView worldIn, BlockPos pos)
    {
        Block ground = worldIn.getBlockState(pos.down()).getBlock();
 
        if (this == BOPBlocks.palm_sapling)
        {
-           return ground == BOPBlocks.white_sand || ground == BOPBlocks.orange_sand || ground == BOPBlocks.black_sand || ground == Blocks.RED_SAND || ground == Blocks.SAND || super.canSurvive(state, worldIn, pos);
+           return ground == BOPBlocks.white_sand || ground == BOPBlocks.orange_sand || ground == BOPBlocks.black_sand || ground == Blocks.RED_SAND || ground == Blocks.SAND || super.canPlaceAt(state, worldIn, pos);
        }
        if (this == BOPBlocks.hellbark_sapling)
        {
-           return ground == Blocks.NETHERRACK || super.canSurvive(state, worldIn, pos);
+           return ground == Blocks.NETHERRACK || super.canPlaceAt(state, worldIn, pos);
        }
 
-       return super.canSurvive(state, worldIn, pos);
+       return super.canPlaceAt(state, worldIn, pos);
    }
-   */
 
    @Override
    public void appendProperties(StateManager.Builder<Block, BlockState> builder)
