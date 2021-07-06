@@ -319,9 +319,9 @@ public class ModBlocks
         mangrove_root = registerBlock(new DoubleWaterPlantBlock(AbstractBlock.Settings.of(Material.PLANT, MapColor.TERRACOTTA_WHITE).noCollision().strength(1.0F, 1.5F).sounds(BlockSoundGroup.WOOD)), "mangrove_root");
         
         //dead_branch = registerBlock(new DeadBranchBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.GRAY).noCollision().breakInstantly().sounds(BlockSoundGroup.WOOD)), "dead_branch");
-        //bramble = registerBlock(new BrambleBlock(FabricBlockSettings.of(Material.PLANT, MapColor.DARK_RED).strength(0.4F).breakByTool(FabricToolTags.AXES, 0).sounds(BlockSoundGroup.WOOD)), "bramble");
-        //toadstool = registerBlock(new MushroomBlockBOP(AbstractBlock.Settings.of(Material.PLANT, MapColor.ORANGE).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "toadstool");
-        //glowshroom = registerBlock(new MushroomBlockBOP(AbstractBlock.Settings.of(Material.PLANT, MapColor.DIAMOND_BLUE).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).luminance((state) -> 6)), "glowshroom");
+        bramble = registerBlock(new BrambleBlock(FabricBlockSettings.of(Material.PLANT, MapColor.DARK_RED).strength(0.4F).breakByTool(FabricToolTags.AXES, 0).sounds(BlockSoundGroup.WOOD)), "bramble");
+        toadstool = registerBlock(new MushroomBlockBOP(AbstractBlock.Settings.of(Material.PLANT, MapColor.ORANGE).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "toadstool");
+        glowshroom = registerBlock(new MushroomBlockBOP(AbstractBlock.Settings.of(Material.PLANT, MapColor.DIAMOND_BLUE).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).luminance((state) -> 6)), "glowshroom");
         
         //Potted Plants
         potted_origin_sapling = registerBlockNoGroup(new FlowerPotBlock(origin_sapling, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly()), "potted_origin_sapling");
@@ -432,9 +432,9 @@ public class ModBlocks
             BlockRenderLayerMap.INSTANCE.putBlock(watergrass, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(mangrove_root, cutoutRenderType);
             //BlockRenderLayerMap.INSTANCE.putBlock(dead_branch, cutoutRenderType);
-            //BlockRenderLayerMap.INSTANCE.putBlock(bramble, cutoutRenderType);
-            //BlockRenderLayerMap.INSTANCE.putBlock(toadstool, cutoutRenderType);
-            //BlockRenderLayerMap.INSTANCE.putBlock(glowshroom, cutoutRenderType);
+            BlockRenderLayerMap.INSTANCE.putBlock(bramble, cutoutRenderType);
+            BlockRenderLayerMap.INSTANCE.putBlock(toadstool, cutoutRenderType);
+            BlockRenderLayerMap.INSTANCE.putBlock(glowshroom, cutoutRenderType);
 
             BlockRenderLayerMap.INSTANCE.putBlock(potted_origin_sapling, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(potted_flowering_oak_sapling, cutoutRenderType);
