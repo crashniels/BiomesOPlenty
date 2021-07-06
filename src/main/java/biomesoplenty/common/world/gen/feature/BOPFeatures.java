@@ -16,6 +16,7 @@ import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.SaplingBlock;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.feature.*;
 
@@ -47,7 +48,7 @@ public class BOPFeatures
 	public static final Feature<TreeFeatureConfig> BIG_JACARANDA_TREE = register("big_jacaranda_tree", new BigTreeFeature.Builder().log(BOPBlocks.jacaranda_log.getDefaultState()).leaves(BOPBlocks.jacaranda_leaves.getDefaultState()).create());
 	public static final Feature<TreeFeatureConfig> BIG_MAGIC_TREE = register("big_magic_tree", new PoplarTreeFeature.Builder().log(BOPBlocks.magic_log.getDefaultState()).leaves(BOPBlocks.magic_leaves.getDefaultState()).minHeight(16).maxHeight(20).create());
 
-	public static final Feature<TreeFeatureConfig> GIANT_TREE = register("giant_tree", new BigTreeFeature.Builder().log(Blocks.DARK_OAK_LOG.getDefaultState()).leaves(Blocks.DARK_OAK_LEAVES.getDefaultState().setValue(LeavesBlock.PERSISTENT, true)).minHeight(15).maxHeight(20).trunkWidth(4).create());
+	public static final Feature<TreeFeatureConfig> GIANT_TREE = register("giant_tree", new BigTreeFeature.Builder().log(Blocks.DARK_OAK_LOG.getDefaultState()).leaves(Blocks.DARK_OAK_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true)).minHeight(15).maxHeight(20).trunkWidth(4).create());
 
 	//Conifer Trees
 	public static final Feature<TreeFeatureConfig> TALL_SPRUCE_TREE = register("tall_spruce_tree", new TaigaTreeFeature.Builder().log(Blocks.SPRUCE_LOG.getDefaultState()).leaves(Blocks.SPRUCE_LEAVES.getDefaultState()).maxHeight(13).create());
@@ -79,7 +80,7 @@ public class BOPFeatures
 	public static final Feature<TreeFeatureConfig> SPRUCE_BUSH = register("spruce_bush", new BushTreeFeature.Builder().log(Blocks.SPRUCE_LOG.getDefaultState()).leaves(Blocks.SPRUCE_LEAVES.getDefaultState()).create());
 	public static final Feature<TreeFeatureConfig> ACACIA_BUSH = register("acacia_bush", new BushTreeFeature.Builder().placeOn((world, pos) -> world.getBlockState(pos).getBlock() == BOPBlocks.orange_sand).log(Blocks.ACACIA_LOG.getDefaultState()).leaves(Blocks.ACACIA_LEAVES.getDefaultState()).create());
 	public static final Feature<TreeFeatureConfig> FLOWERING_BUSH = register("flowering_bush", new BushTreeFeature.Builder().altLeaves(BOPBlocks.flowering_oak_leaves.getDefaultState()).create());
-	public static final Feature<TreeFeatureConfig> HELLBARK_TREE = register("hellbark_tree", new BushTreeFeature.Builder().placeOn((world, pos) -> world.getBlockState(pos).getBlock() == Blocks.NETHERRACK || world.getBlockState(pos).canSustainPlant(world, pos, Direction.UP, (SaplingBlock)Blocks.OAK_SAPLING)).log(BOPBlocks.hellbark_log.getDefaultState()).leaves(BOPBlocks.hellbark_leaves.getDefaultState()).create());
+	public static final Feature<TreeFeatureConfig> HELLBARK_TREE = register("hellbark_tree", new BushTreeFeature.Builder().placeOn((world, pos) -> world.getBlockState(pos).getBlock() == Blocks.NETHERRACK /*|| world.getBlockState(pos).canSustainPlant(world, pos, Direction.UP, (SaplingBlock)Blocks.OAK_SAPLING)*/).log(BOPBlocks.hellbark_log.getDefaultState()).leaves(BOPBlocks.hellbark_leaves.getDefaultState()).create());
 
 	public static final Feature<TreeFeatureConfig> TWIGLET_TREE = register("twiglet_tree", new TwigletTreeFeature.Builder().minHeight(1).maxHeight(2).create());
 	public static final Feature<TreeFeatureConfig> TALL_TWIGLET_TREE = register("tall_twiglet_tree", new TwigletTreeFeature.Builder().minHeight(2).maxHeight(4).create());
@@ -94,7 +95,7 @@ public class BOPFeatures
 	public static final Feature<TreeFeatureConfig> DEAD_TWIGLET_TREE = register("dead_twiglet_tree", new TwigletTreeFeature.Builder().trunkFruit(BOPBlocks.dead_branch.getDefaultState()).leafChance(0.05F, 0.25F).leaves(BOPBlocks.dead_leaves.getDefaultState()).log(BOPBlocks.dead_log.getDefaultState()).minHeight(6).maxHeight(10).create());
 	public static final Feature<TreeFeatureConfig> DEAD_TWIGLET_TREE_TALL = register("dead_twiglet_tree_tall", new TwigletTreeFeature.Builder().trunkFruit(BOPBlocks.dead_branch.getDefaultState()).leafChance(0.15F, 0.6F).leaves(BOPBlocks.dead_leaves.getDefaultState()).log(BOPBlocks.dead_log.getDefaultState()).minHeight(12).maxHeight(18).create());
 	public static final Feature<TreeFeatureConfig> TWIGLET_TREE_VOLCANO = register("twiglet_tree_volcano", new TwigletTreeFeature.Builder().placeOn((world, pos) -> world.getBlockState(pos).getBlock() == BOPBlocks.black_sand).log(Blocks.DARK_OAK_LOG.getDefaultState()).leaves(Blocks.DARK_OAK_LEAVES.getDefaultState()).minHeight(1).maxHeight(2).create());
-	public static final Feature<TreeFeatureConfig> BIG_HELLBARK_TREE = register("big_hellbark_tree", new TwigletTreeFeature.Builder().placeOn((world, pos) -> world.getBlockState(pos).getBlock() == Blocks.NETHERRACK || world.getBlockState(pos).canSustainPlant(world, pos, Direction.UP, (SaplingBlock)Blocks.OAK_SAPLING)).log(BOPBlocks.hellbark_log.getDefaultState()).leaves(BOPBlocks.hellbark_leaves.getDefaultState()).minHeight(3).maxHeight(7).create());
+	public static final Feature<TreeFeatureConfig> BIG_HELLBARK_TREE = register("big_hellbark_tree", new TwigletTreeFeature.Builder().placeOn((world, pos) -> world.getBlockState(pos).getBlock() == Blocks.NETHERRACK /*|| world.getBlockState(pos).canSustainPlant(world, pos, Direction.UP, (SaplingBlock)Blocks.OAK_SAPLING)*/).log(BOPBlocks.hellbark_log.getDefaultState()).leaves(BOPBlocks.hellbark_leaves.getDefaultState()).minHeight(3).maxHeight(7).create());
 
 	//Special Trees
 	public static final Feature<TreeFeatureConfig> REDWOOD_TREE = register("redwood_tree", new RedwoodTreeFeature.Builder().create());
@@ -110,38 +111,38 @@ public class BOPFeatures
 	/////////////////////////////////////////////////////////////////////////////////
 
 	//Features
-	public static final Feature<NoFeatureConfig> BIG_PUMPKIN = register("big_pumpkin", new BigPumpkinFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> BLACK_SAND_SPLATTER = register("black_sand_splatter", new BlackSandSplatterFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> BONE_SPINE = register("bone_spine", new BoneSpineFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> BRAMBLE = register("bramble", new BrambleFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> CRAG_SPLATTER = register("crag_splatter", new CragSplatterFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> DEEP_BAYOU_VINES = register("deep_bayou_vines", new DeepBayouVinesFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> FERN = register("fern", new FernFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> FERN_GRASS = register("fern_grass", new FernGrassFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> FLESH_TENDON = register("flesh_tendon", new FleshTendonFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> GRASS_SPLATTER = register("grass_splatter", new GrassSplatterFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> HUGE_CLOVER = register("huge_clover", new HugeCloverFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> HUGE_GLOWSHROOM = register("huge_glowshroom", new HugeGlowshroomFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> HUGE_TOADSTOOL = register("huge_toadstool", new HugeToadstoolFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> LARGE_CRYSTAL = register("large_crystal", new LargeCrystalFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> MANGROVE = register("mangrove", new MangroveFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> MYCELIUM_SPLATTER = register("mycelium_splatter", new MyceliumSplatterFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> NETHER_VINES = register("nether_vines", new NetherVinesFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> OBSIDIAN_SPLATTER = register("obsidian_splatter", new ObsidianSplatterFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> RAINFOREST_CLIFFS_VINES = register("rainforest_cliffs_vines", new RainforestCliffsVinesFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> PODZOL_SPLATTER = register("podzol_splatter", new PodzolSplatterFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> PUMPKIN_PATCH = register("pumpkin_patch", new PumpkinPatchFeature(NoFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> BIG_PUMPKIN = register("big_pumpkin", new BigPumpkinFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> BLACK_SAND_SPLATTER = register("black_sand_splatter", new BlackSandSplatterFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> BONE_SPINE = register("bone_spine", new BoneSpineFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> BRAMBLE = register("bramble", new BrambleFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> CRAG_SPLATTER = register("crag_splatter", new CragSplatterFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> DEEP_BAYOU_VINES = register("deep_bayou_vines", new DeepBayouVinesFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> FERN = register("fern", new FernFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> FERN_GRASS = register("fern_grass", new FernGrassFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> FLESH_TENDON = register("flesh_tendon", new FleshTendonFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> GRASS_SPLATTER = register("grass_splatter", new GrassSplatterFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> HUGE_CLOVER = register("huge_clover", new HugeCloverFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> HUGE_GLOWSHROOM = register("huge_glowshroom", new HugeGlowshroomFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> HUGE_TOADSTOOL = register("huge_toadstool", new HugeToadstoolFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> LARGE_CRYSTAL = register("large_crystal", new LargeCrystalFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> MANGROVE = register("mangrove", new MangroveFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> MYCELIUM_SPLATTER = register("mycelium_splatter", new MyceliumSplatterFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> NETHER_VINES = register("nether_vines", new NetherVinesFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> OBSIDIAN_SPLATTER = register("obsidian_splatter", new ObsidianSplatterFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> RAINFOREST_CLIFFS_VINES = register("rainforest_cliffs_vines", new RainforestCliffsVinesFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> PODZOL_SPLATTER = register("podzol_splatter", new PodzolSplatterFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> PUMPKIN_PATCH = register("pumpkin_patch", new PumpkinPatchFeature(DefaultFeatureConfig.CODEC.stable()));
 	public static final Feature<BlockClusterFeatureConfig> RANDOM_PATCH_ABOVE_GROUND = register("random_patch_above_ground", new RandomPatchAboveGroundFeature(BlockClusterFeatureConfig.CODEC));
-	public static final Feature<NoFeatureConfig> SCATTERED_ROCKS = register("scattered_rocks", new ScatteredRocksFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> SCRUB = register("scrub", new ScrubFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> SHORT_BAMBOO = register("short_bamboo", new ShortBambooFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> SMALL_BROWN_MUSHROOM = register("small_brown_mushroom", new SmallBrownMushroomFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> SMALL_CRYSTAL = register("small_crystal", new SmallCrystalFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> SMALL_GLOWSHROOM = register("small_glowshroom", new SmallGlowshroomFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> SMALL_RED_MUSHROOM = register("small_red_mushroom", new SmallRedMushroomFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> SMALL_TOADSTOOL = register("small_toadstool", new SmallToadstoolFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> STANDARD_GRASS = register("standard_grass", new StandardGrassFeature(NoFeatureConfig.CODEC.stable()));
-	public static final Feature<NoFeatureConfig> WASTELAND_GRASS = register("wasteland_grass", new WastelandGrassFeature(NoFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> SCATTERED_ROCKS = register("scattered_rocks", new ScatteredRocksFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> SCRUB = register("scrub", new ScrubFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> SHORT_BAMBOO = register("short_bamboo", new ShortBambooFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> SMALL_BROWN_MUSHROOM = register("small_brown_mushroom", new SmallBrownMushroomFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> SMALL_CRYSTAL = register("small_crystal", new SmallCrystalFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> SMALL_GLOWSHROOM = register("small_glowshroom", new SmallGlowshroomFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> SMALL_RED_MUSHROOM = register("small_red_mushroom", new SmallRedMushroomFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> SMALL_TOADSTOOL = register("small_toadstool", new SmallToadstoolFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> STANDARD_GRASS = register("standard_grass", new StandardGrassFeature(DefaultFeatureConfig.CODEC.stable()));
+	public static final Feature<DefaultFeatureConfig> WASTELAND_GRASS = register("wasteland_grass", new WastelandGrassFeature(DefaultFeatureConfig.CODEC.stable()));
 
 	//Flowers
 	public static final BlockClusterFeatureConfig CHERRY_BLOSSOM_GROVE_FLOWER_CONFIG = (new BlockClusterFeatureConfig.Builder((new WeightedBlockStateProvider()).add(BOPBlocks.pink_daffodil.getDefaultState(), 1).add(Blocks.LILY_OF_THE_VALLEY.getDefaultState(), 1), SimpleBlockPlacer.INSTANCE)).tries(64).build();

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "biomesoplenty",
-  "version": "${version}",
+  "version": "13.1.0",
 
   "name": "Biomes O' Plenty",
   "description": "Minecraft mod that adds over 50 new biomes to the game.",

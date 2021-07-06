@@ -11,27 +11,24 @@ import biomesoplenty.api.block.BOPBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.BushBlock;
-import net.minecraft.util.Direction;
+import net.minecraft.block.DeadBushBlock;
+import net.minecraft.block.Fertilizable;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.PlantType;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
 
-public class PlantBlockBOP extends BushBlock implements IPlantable
+public class PlantBlockBOP extends DeadBushBlock
 {
-	protected static final VoxelShape NORMAL = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
+	protected static final VoxelShape NORMAL = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
 	
-    public PlantBlockBOP(Block.Properties properties)
+    public PlantBlockBOP(Settings properties)
     {
         super(properties);
     }
     
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext selectionContext)
+    public VoxelShape getOutlineShape(BlockState state, BlockView worldIn, BlockPos pos, ShapeContext selectionContext)
     {
         Block block = state.getBlock();
 
@@ -45,14 +42,16 @@ public class PlantBlockBOP extends BushBlock implements IPlantable
     }
 
     @Override
-    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos)
+    public boolean canPlantOnTop(BlockState state, BlockView worldIn, BlockPos pos)
     {
-        return super.canSurvive(state, worldIn, pos);
+        return super.canPlantOnTop(state, worldIn, pos);
     }
 
+    /*
     @Override
     public PlantType getPlantType(IBlockReader world, BlockPos pos)
     {
     	return PlantType.PLAINS;
     }
+    */
 }

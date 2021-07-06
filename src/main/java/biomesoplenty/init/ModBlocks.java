@@ -83,7 +83,7 @@ public class ModBlocks
         dried_salt = registerBlock(new DriedSaltBlock(FabricBlockSettings.of(Material.STONE, MapColor.OAK_TAN).strength(1.0F).breakByTool(FabricToolTags.PICKAXES, 0).sounds(new BlockSoundGroup(1.0F, 0.5F, SoundEvents.BLOCK_GRAVEL_BREAK, SoundEvents.BLOCK_GRAVEL_STEP, SoundEvents.BLOCK_GRAVEL_PLACE, SoundEvents.BLOCK_GRAVEL_HIT, SoundEvents.BLOCK_GRAVEL_FALL))), "dried_salt");
         flesh = registerBlock(new FleshBlock(FabricBlockSettings.of(Material.SPONGE, MapColor.TERRACOTTA_RED).strength(0.4F).breakByTool(FabricToolTags.AXES, 0).sounds(new BlockSoundGroup(1.0F, 0.5F, SoundEvents.BLOCK_CORAL_BLOCK_BREAK, SoundEvents.BLOCK_CORAL_BLOCK_STEP, SoundEvents.BLOCK_CORAL_BLOCK_PLACE, SoundEvents.BLOCK_CORAL_BLOCK_HIT, SoundEvents.BLOCK_CORAL_BLOCK_FALL))), "flesh");
 
-        nether_crystal_block = registerBlock(new Block(FabricBlockSettings.of(Material.GLASS, MapColor.DARK_CRIMSON).strength(0.4F).breakByTool(FabricToolTags.PICKAXES, 0).sounds(new BlockSoundGroup(1.0F, 0.75F, SoundEvents.BLOCK_GLASS_BREAK, SoundEvents.BLOCK_GLASS_STEP, SoundEvents.BLOCK_GLASS_PLACE, SoundEvents.BLOCK_GLASS_HIT, SoundEvents.BLOCK_GLASS_FALL)).luminance((state) -> 10)), "nether_crystal_block");
+        //nether_crystal_block = registerBlock(new Block(FabricBlockSettings.of(Material.GLASS, MapColor.DARK_CRIMSON).strength(0.4F).breakByTool(FabricToolTags.PICKAXES, 0).sounds(new BlockSoundGroup(1.0F, 0.75F, SoundEvents.BLOCK_GLASS_BREAK, SoundEvents.BLOCK_GLASS_STEP, SoundEvents.BLOCK_GLASS_PLACE, SoundEvents.BLOCK_GLASS_HIT, SoundEvents.BLOCK_GLASS_FALL)).luminance((state) -> 10)), "nether_crystal_block");
         //nether_crystal = registerBlock(new NetherCrystalBlock(FabricBlockSettings.of(Material.GLASS, MapColor.DARK_CRIMSON).noCollision().strength(0.3F).breakByTool(FabricToolTags.PICKAXES, 0).sounds(new BlockSoundGroup(1.0F, 0.75F, SoundEvents.BLOCK_GLASS_BREAK, SoundEvents.BLOCK_GLASS_STEP, SoundEvents.BLOCK_GLASS_PLACE, SoundEvents.BLOCK_GLASS_HIT, SoundEvents.BLOCK_GLASS_FALL)).luminance((state) -> 8)), "nether_crystal");
 
         toadstool_block = registerBlock(new MushroomBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.ORANGE).strength(0.2F).sounds(BlockSoundGroup.WOOD)), "toadstool_block");
@@ -301,7 +301,7 @@ public class ModBlocks
         willow_vine = registerBlock(new VineBlock(AbstractBlock.Settings.of(Material.REPLACEABLE_PLANT).ticksRandomly().noCollision().strength(0.2F).sounds(BlockSoundGroup.GRASS)), "willow_vine");
         spanish_moss = registerBlock(new SpanishMossBottomBlock(AbstractBlock.Settings.of(Material.REPLACEABLE_PLANT).ticksRandomly().noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "spanish_moss");
         spanish_moss_plant = registerBlockNoGroup(new SpanishMossBlock(AbstractBlock.Settings.of(Material.REPLACEABLE_PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "spanish_moss_plant");
-        /*
+        
         //Plants
         sprout = registerBlock(new FoliageBlockBOP(AbstractBlock.Settings.of(Material.REPLACEABLE_PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "sprout");
         bush = registerBlock(new FoliageBlockBOP(AbstractBlock.Settings.of(Material.REPLACEABLE_PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "bush");
@@ -310,19 +310,19 @@ public class ModBlocks
         dune_grass = registerBlock(new FoliageBlockBOP(AbstractBlock.Settings.of(Material.REPLACEABLE_PLANT, MapColor.TERRACOTTA_LIME).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "dune_grass");
         desert_grass = registerBlock(new FoliageBlockBOP(AbstractBlock.Settings.of(Material.REPLACEABLE_PLANT, MapColor.TERRACOTTA_ORANGE).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "desert_grass");
         dead_grass = registerBlock(new FoliageBlockBOP(AbstractBlock.Settings.of(Material.REPLACEABLE_PLANT, MapColor.OAK_TAN).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "dead_grass");
-
+        
         //Tall Plants
-        cattail = registerBlock(new DoubleWatersidePlantBlock(AbstractBlock.Settings.of(Material.PLANT, MapColor.DIRT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "cattail");
+        cattail = registerBlock(new DoubleWatersidePlantBlock(AbstractBlock.Settings.of(Material.PLANT, MapColor.DIRT_BROWN).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "cattail");
         barley = registerBlock(new DoublePlantBlockBOP(AbstractBlock.Settings.of(Material.PLANT, MapColor.TERRACOTTA_YELLOW).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "barley");
-        reed = registerBlock(new DoubleWaterPlantBlock(AbstractBlock.Settings.of(Material.REPLACEABLE_WATER_PLANT, MapColor.DIRT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "reed");
-        watergrass = registerBlock(new DoubleWaterPlantBlock(AbstractBlock.Settings.of(Material.REPLACEABLE_WATER_PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "watergrass");
-        mangrove_root = registerBlock(new DoubleWaterPlantBlock(AbstractBlock.Settings.of(Material.WATER_PLANT, MapColor.TERRACOTTA_WHITE).noCollision().strength(1.0F, 1.5F).sounds(BlockSoundGroup.WOOD)), "mangrove_root");
-
-        dead_branch = registerBlock(new DeadBranchBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.GRAY).noCollision().breakInstantly().sounds(BlockSoundGroup.WOOD)), "dead_branch");
-        bramble = registerBlock(new BrambleBlock(AbstractBlock.Settings.of(Material.PLANT, MapColor.NETHER).strength(0.4F).harvestLevel(0).harvestTool(ToolType.AXE).sounds(BlockSoundGroup.WOOD)), "bramble");
-        toadstool = registerBlock(new MushroomBlockBOP(AbstractBlock.Settings.of(Material.PLANT, MapColor.ORANGE).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "toadstool");
-        glowshroom = registerBlock(new MushroomBlockBOP(AbstractBlock.Settings.of(Material.PLANT, MapColor.DIAMOND).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).luminance((state) -> 6)), "glowshroom");
-
+        reed = registerBlock(new DoubleWaterPlantBlock(AbstractBlock.Settings.of(Material.REPLACEABLE_UNDERWATER_PLANT, MapColor.DIRT_BROWN).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "reed");
+        watergrass = registerBlock(new DoubleWaterPlantBlock(AbstractBlock.Settings.of(Material.REPLACEABLE_UNDERWATER_PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "watergrass");
+        mangrove_root = registerBlock(new DoubleWaterPlantBlock(AbstractBlock.Settings.of(Material.PLANT, MapColor.TERRACOTTA_WHITE).noCollision().strength(1.0F, 1.5F).sounds(BlockSoundGroup.WOOD)), "mangrove_root");
+        
+        //dead_branch = registerBlock(new DeadBranchBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.GRAY).noCollision().breakInstantly().sounds(BlockSoundGroup.WOOD)), "dead_branch");
+        //bramble = registerBlock(new BrambleBlock(FabricBlockSettings.of(Material.PLANT, MapColor.DARK_RED).strength(0.4F).breakByTool(FabricToolTags.AXES, 0).sounds(BlockSoundGroup.WOOD)), "bramble");
+        //toadstool = registerBlock(new MushroomBlockBOP(AbstractBlock.Settings.of(Material.PLANT, MapColor.ORANGE).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)), "toadstool");
+        //glowshroom = registerBlock(new MushroomBlockBOP(AbstractBlock.Settings.of(Material.PLANT, MapColor.DIAMOND_BLUE).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).luminance((state) -> 6)), "glowshroom");
+        
         //Potted Plants
         potted_origin_sapling = registerBlockNoGroup(new FlowerPotBlock(origin_sapling, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly()), "potted_origin_sapling");
         potted_flowering_oak_sapling = registerBlockNoGroup(new FlowerPotBlock(flowering_oak_sapling, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly()), "potted_flowering_oak_sapling");
@@ -357,7 +357,6 @@ public class ModBlocks
         potted_toadstool = registerBlockNoGroup(new FlowerPotBlock(toadstool, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly()), "potted_toadstool");
         potted_glowshroom = registerBlockNoGroup(new FlowerPotBlock(glowshroom, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly().luminance((state) -> 6)), "potted_glowshroom");
         
-        */
     }
 
     @Environment(EnvType.CLIENT)    
@@ -373,7 +372,6 @@ public class ModBlocks
             BlockRenderLayerMap.INSTANCE.putBlock(yellow_autumn_leaves, transparentRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(orange_autumn_leaves, transparentRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(maple_leaves, transparentRenderType);
-            /*
             BlockRenderLayerMap.INSTANCE.putBlock(fir_leaves, transparentRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(redwood_leaves, transparentRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(white_cherry_leaves, transparentRenderType);
@@ -387,15 +385,13 @@ public class ModBlocks
             BlockRenderLayerMap.INSTANCE.putBlock(umbran_leaves, transparentRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(hellbark_leaves, transparentRenderType);
 
-            BlockRenderLayerMap.INSTANCE.putBlock(nether_crystal, cutoutRenderType);
-            */
+            //BlockRenderLayerMap.INSTANCE.putBlock(nether_crystal, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(origin_sapling, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(flowering_oak_sapling, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(rainbow_birch_sapling, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(yellow_autumn_sapling, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(orange_autumn_sapling, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(maple_sapling, cutoutRenderType);
-            /*
             BlockRenderLayerMap.INSTANCE.putBlock(fir_sapling, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(redwood_sapling, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(white_cherry_sapling, cutoutRenderType);
@@ -435,10 +431,10 @@ public class ModBlocks
             BlockRenderLayerMap.INSTANCE.putBlock(reed, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(watergrass, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(mangrove_root, cutoutRenderType);
-            BlockRenderLayerMap.INSTANCE.putBlock(dead_branch, cutoutRenderType);
-            BlockRenderLayerMap.INSTANCE.putBlock(bramble, cutoutRenderType);
-            BlockRenderLayerMap.INSTANCE.putBlock(toadstool, cutoutRenderType);
-            BlockRenderLayerMap.INSTANCE.putBlock(glowshroom, cutoutRenderType);
+            //BlockRenderLayerMap.INSTANCE.putBlock(dead_branch, cutoutRenderType);
+            //BlockRenderLayerMap.INSTANCE.putBlock(bramble, cutoutRenderType);
+            //BlockRenderLayerMap.INSTANCE.putBlock(toadstool, cutoutRenderType);
+            //BlockRenderLayerMap.INSTANCE.putBlock(glowshroom, cutoutRenderType);
 
             BlockRenderLayerMap.INSTANCE.putBlock(potted_origin_sapling, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(potted_flowering_oak_sapling, cutoutRenderType);
@@ -495,7 +491,6 @@ public class ModBlocks
             BlockRenderLayerMap.INSTANCE.putBlock(magic_trapdoor, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(umbran_trapdoor, cutoutRenderType);
             BlockRenderLayerMap.INSTANCE.putBlock(hellbark_trapdoor, cutoutRenderType);
-            */
         }
 
     public static Block registerBlock(Block block, String name)

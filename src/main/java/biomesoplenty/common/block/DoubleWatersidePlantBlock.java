@@ -10,41 +10,48 @@ package biomesoplenty.common.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Direction;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.Properties;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraftforge.common.PlantType;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.WorldView;
 
 import java.util.Iterator;
 
 public class DoubleWatersidePlantBlock extends DoublePlantBlockBOP
 {
-    public DoubleWatersidePlantBlock(Block.Properties properties)
+    public DoubleWatersidePlantBlock(Settings properties)
     {
         super(properties);
     }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(Properties.DOUBLE_BLOCK_HALF);
+    }
     
+    /*
     @Override
     public PlantType getPlantType(IBlockReader world, BlockPos pos)
     {
     	return PlantType.BEACH;
     }
+    */
 
     @Override
-    public boolean canSurvive(BlockState state, IWorldReader worldReader, BlockPos pos)
+    public boolean canPlaceAt(BlockState state, WorldView worldReader, BlockPos pos)
     {
-        if (state.getBlock() != this) return super.canSurvive(state, worldReader, pos);
-        if (state.getValue(HALF) != DoubleBlockHalf.UPPER)
+        if (state.getBlock() != this) return super.canPlaceAt(state, worldReader, pos);
+        if (state.get(Properties.DOUBLE_BLOCK_HALF) != DoubleBlockHalf.UPPER)
         {
-            BlockState soil = worldReader.getBlockState(pos.below());
-            if (soil.canSustainPlant(worldReader, pos.below(), Direction.UP, this))
+            BlockState soil = worldReader.getBlockState(pos.down());
+            if (soil.canPlaceAt(worldReader, pos.down()/*, Direction.UP, this*/))
             {
-                BlockPos blockpos = pos.below();
-                Iterator var7 = Direction.Plane.HORIZONTAL.iterator();
+                BlockPos blockpos = pos.down();
+                Iterator var7 = Direction.Type.HORIZONTAL.iterator();
 
                 BlockState BlockState;
                 FluidState ifluidstate;
@@ -54,19 +61,20 @@ public class DoubleWatersidePlantBlock extends DoublePlantBlockBOP
                     }
 
                     Direction dir = (Direction)var7.next();
-                    BlockState = worldReader.getBlockState(blockpos.relative(dir));
-                    ifluidstate = worldReader.getFluidState(blockpos.relative(dir));
-                } while(!ifluidstate.is(FluidTags.WATER) && BlockState.getBlock() != Blocks.FROSTED_ICE);
+                    BlockState = worldReader.getBlockState(blockpos.offset(dir));
+                    ifluidstate = worldReader.getFluidState(blockpos.offset(dir));
+                } while(!ifluidstate.isIn(FluidTags.WATER) && BlockState.getBlock() != Blocks.FROSTED_ICE);
 
                 return true;
             }
         }
         else
         {
-           BlockState below = worldReader.getBlockState(pos.below());
-           return below.getBlock() == this && below.getValue(HALF) == DoubleBlockHalf.LOWER;
+           BlockState below = worldReader.getBlockState(pos.down());
+           return below.getBlock() == this && below.get(Properties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER;
         }
         
         return false;
     }
+
 }

@@ -1,7 +1,6 @@
 package biomesoplenty.init;
 
 import biomesoplenty.api.block.BOPBlocks;
-import biomesoplenty.mixin.item.AxeItemAccessor;
 
 import com.google.common.collect.Maps;
 

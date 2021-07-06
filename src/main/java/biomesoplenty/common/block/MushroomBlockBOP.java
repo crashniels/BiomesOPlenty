@@ -10,68 +10,62 @@ package biomesoplenty.common.block;
 import biomesoplenty.api.block.BOPBlocks;
 import biomesoplenty.common.world.gen.feature.BOPFeatures;
 import net.minecraft.block.*;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.server.ServerWorld;
 
 import java.util.Random;
 
-public class MushroomBlockBOP extends MushroomBlock implements IGrowable
+public class MushroomBlockBOP extends MushroomBlock
 {
-    public MushroomBlockBOP(Block.Properties properties)
+    public MushroomBlockBOP(Settings properties)
     {
         super(properties);
     }
     
     @Override
-    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random)
+    public boolean canPlaceAt(BlockState state, WorldView worldIn, BlockPos pos)
     {
+        Block ground = worldIn.getBlockState(pos.down()).getBlock();
+        BlockState BlockState = worldIn.getBlockState(pos.down());
+
+        return BlockState.canPlaceAt(worldIn, pos.down()/*, Direction.UP, this*/);
     }
 
-    @Override
-    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos)
-    {
-        Block ground = worldIn.getBlockState(pos.below()).getBlock();
-        BlockState BlockState = worldIn.getBlockState(pos.below());
-
-        return BlockState.canSustainPlant(worldIn, pos.below(), net.minecraft.util.Direction.UP, this);
-    }
-
-    @Override
-    public boolean growMushroom(ServerWorld world, BlockPos p_226940_2_, BlockState p_226940_3_, Random p_226940_4_)
+    public boolean trySpawningBigMushroom(ServerWorld world, BlockPos p_226940_2_, BlockState p_226940_3_, Random p_226940_4_)
     {
         world.removeBlock(p_226940_2_, false);
-        ConfiguredFeature<NoFeatureConfig, ?> configuredfeature;
+        ConfiguredFeature<DefaultFeatureConfig, ?> configuredfeature;
         if (this == BOPBlocks.glowshroom)
         {
-            configuredfeature = BOPFeatures.HUGE_GLOWSHROOM.configured(IFeatureConfig.NONE);
+            configuredfeature = BOPFeatures.HUGE_GLOWSHROOM.configure(FeatureConfig.DEFAULT);
         }
         else
         {
             if (this != BOPBlocks.toadstool)
             {
-                world.setBlock(p_226940_2_, p_226940_3_, 3);
+                world.setBlockState(p_226940_2_, p_226940_3_, 3);
                 return false;
             }
 
-            configuredfeature = BOPFeatures.HUGE_TOADSTOOL.configured(IFeatureConfig.NONE);
+            configuredfeature = BOPFeatures.HUGE_TOADSTOOL.configure(FeatureConfig.DEFAULT);
         }
 
-        if (configuredfeature.place(world, world.getChunkSource().getGenerator(), p_226940_4_, p_226940_2_))
+        if (configuredfeature.generate(world, world.getChunkManager().getChunkGenerator(), p_226940_4_, p_226940_2_))
         {
             return true;
         }
         else
         {
-            world.setBlock(p_226940_2_, p_226940_3_, 3);
+            world.setBlockState(p_226940_2_, p_226940_3_, 3);
             return false;
         }
     }
 
-    public boolean isValidBonemealTarget(IBlockReader worldIn, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isFertilizable(BlockView worldIn, BlockPos pos, BlockState state, boolean isClient) {
         return true;
     }
 
@@ -80,10 +74,10 @@ public class MushroomBlockBOP extends MushroomBlock implements IGrowable
     }
 
     public void performBonemeal(ServerWorld p_225535_1_, Random p_225535_2_, BlockPos p_225535_3_, BlockState p_225535_4_) {
-        this.growMushroom(p_225535_1_, p_225535_3_, p_225535_4_, p_225535_2_);
+        this.trySpawningBigMushroom(p_225535_1_, p_225535_3_, p_225535_4_, p_225535_2_);
     }
 
-    public boolean hasPostProcess(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public boolean hasPostProcess(BlockState state, BlockView worldIn, BlockPos pos) {
         return true;
     }
 }

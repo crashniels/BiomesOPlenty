@@ -29,8 +29,8 @@ public class MahoganyTreeFeature extends TreeFeatureBase
     {
         public Builder()
         {
-            this.log = BOPBlocks.mahogany_log.defaultBlockState();
-            this.leaves = BOPBlocks.mahogany_leaves.defaultBlockState();
+            this.log = BOPBlocks.mahogany_log.getDefaultState();
+            this.leaves = BOPBlocks.mahogany_leaves.getDefaultState();
             this.minHeight = 8;
             this.maxHeight = 14;
         }
