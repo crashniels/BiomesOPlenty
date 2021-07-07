@@ -25,7 +25,7 @@ public class ModItems
         mud_ball = registerItem(new Item(new Item.Settings().group(ItemGroupBOP.ItemGroupBOP)), "mud_ball");
         mud_brick = registerItem(new Item(new Item.Settings().group(ItemGroupBOP.ItemGroupBOP)), "mud_brick");
         
-        //music_disc_wanderer = registerItem(new MusicDiscItemBOP("music_disc.wanderer"), "music_disc_wanderer");
+        music_disc_wanderer = registerItem(new MusicDiscItemBOP("music_disc.wanderer"), "music_disc_wanderer");
 
         /*
         fir_boat = registerItem(new BoatItemBOP(BoatEntityBOP.BoatModel.FIR), "fir_boat");

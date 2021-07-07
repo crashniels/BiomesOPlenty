@@ -14,21 +14,16 @@ import net.minecraft.item.MusicDiscItem;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
-import net.minecraft.util.registry.Registry;
 
 public class MusicDiscItemBOP extends MusicDiscItem
 {
 	//Provide a resource location and the correct registry to retrieve a SoundEvent supplier
     public static SoundEvent soundProvider(String soundName) {
-        return Registry.register(
-            Registry.SOUND_EVENT, 
-            new Identifier(BiomesOPlenty.MOD_ID, soundName), 
-            entry
-        );
+        return new SoundEvent(new Identifier(BiomesOPlenty.MOD_ID, soundName));
     };
 	
     public MusicDiscItemBOP(String record)
     {
-        super(0, soundProvider(record), new Item.Settings().group(ItemGroupBOP.instance).rarity(Rarity.RARE).maxCount(1));
+        super(0, soundProvider(record), new Item.Settings().group(ItemGroupBOP.ItemGroupBOP).rarity(Rarity.RARE).maxCount(1));
     }
 }

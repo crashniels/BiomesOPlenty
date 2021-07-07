@@ -8,21 +8,18 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.Stats;
+import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.function.Predicate;
 
 public class BoatItemBOP extends Item {
-    private static final Predicate<Entity> ENTITY_PREDICATE = EntityPredicates.NO_SPECTATORS.and(Entity::isPickable);
+    private static final Predicate<Entity> ENTITY_PREDICATE = EntityPredicates.EXCEPT_SPECTATOR.and(Entity::isPickable);
     private final BoatModel model;
 
     public BoatItemBOP(BoatModel model) {
@@ -32,11 +29,11 @@ public class BoatItemBOP extends Item {
     }
 
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        ItemStack heldItem = player.getItemInHand(hand);
-        RayTraceResult result = getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.ANY);
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack heldItem = player.getMainHandStack();
+        RayTraceResult result = getPlayerPOVHitResult(world, player, RaycastContext.FluidHandling.ANY);
         if (result.getType() == RayTraceResult.Type.MISS) {
-            return ActionResult.pass(heldItem);
+            return TypedActionResult.pass(heldItem);
         } else {
             Vector3d vector3d = player.getViewVector(1f);
             List<Entity> entities = world.getEntities(player, player.getBoundingBox().expandTowards(vector3d.scale(5d)).inflate(1d), ENTITY_PREDICATE);

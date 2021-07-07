@@ -7,17 +7,19 @@
  ******************************************************************************/
 package biomesoplenty.common.world;
 
-import net.minecraft.util.registry.DynamicRegistries;
+import net.minecraft.client.render.SkyProperties.Overworld;
+import net.minecraft.client.world.GeneratorType;
+import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.DimensionSettings;
-import net.minecraft.world.gen.NoiseChunkGenerator;
-import net.minecraft.world.gen.settings.DimensionGeneratorSettings;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.gen.GeneratorOptions;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
+import net.minecraft.world.gen.chunk.NoiseChunkGenerator;
 import net.minecraftforge.common.world.ForgeWorldType;
 
-public class BOPWorldType extends ForgeWorldType
+public class BOPWorldType extends GeneratorType
 {
     public BOPWorldType()
     {
@@ -25,18 +27,18 @@ public class BOPWorldType extends ForgeWorldType
     }
 
     @Override
-    public ChunkGenerator createChunkGenerator(Registry<Biome> biomeRegistry, Registry<DimensionSettings> dimensionSettingsRegistry, long seed, String generatorSettings)
+    public ChunkGenerator getChunkGenerator(Registry<Biome> biomeRegistry, Registry<ChunkGeneratorSettings> dimensionSettingsRegistry, long seed)
     {
         return new NoiseChunkGenerator(new BOPBiomeProvider(seed, biomeRegistry), seed, () -> dimensionSettingsRegistry.getOrThrow(DimensionSettings.OVERWORLD));
     }
 
     @Override
-    public DimensionGeneratorSettings createSettings(DynamicRegistries dynamicRegistries, long seed, boolean generateFeatures, boolean generateBonusChest, String generatorSettings)
+    public GeneratorOptions createDefaultOptions(DynamicRegistryManager.Impl dynamicRegistries, long seed, boolean generateFeatures, boolean generateBonusChest)
     {
-        Registry<Biome> biomeRegistry = dynamicRegistries.registryOrThrow(Registry.BIOME_REGISTRY);
-        Registry<DimensionSettings> dimensionSettingsRegistry = dynamicRegistries.registryOrThrow(Registry.NOISE_GENERATOR_SETTINGS_REGISTRY);
-        Registry<DimensionType> dimensionTypeRegistry = dynamicRegistries.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY);
+        Registry<Biome> biomeRegistry = dynamicRegistries.get(Registry.BIOME_KEY);
+        Registry<ChunkGeneratorSettings> dimensionSettingsRegistry = dynamicRegistries.get(Registry.CHUNK_GENERATOR_SETTINGS_KEY);
+        Registry<DimensionType> dimensionTypeRegistry = dynamicRegistries.get(Registry.DIMENSION_TYPE_KEY);
 
-        return new DimensionGeneratorSettings(seed, generateFeatures, generateBonusChest, DimensionGeneratorSettings.withOverworld(dimensionTypeRegistry, BOPDimensionType.bopDimensions(biomeRegistry, dimensionSettingsRegistry, seed), createChunkGenerator(biomeRegistry, dimensionSettingsRegistry, seed, null)));
+        return new GeneratorOptions(seed, generateFeatures, generateBonusChest, GeneratorOptions.withOverworld(dimensionTypeRegistry, BOPDimensionType.bopDimensions(biomeRegistry, dimensionSettingsRegistry, seed), createChunkGenerator(biomeRegistry, dimensionSettingsRegistry, seed)));
     }
 }

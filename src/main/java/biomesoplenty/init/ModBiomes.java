@@ -27,6 +27,7 @@ import com.google.common.collect.Multimap;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
@@ -45,7 +46,7 @@ import static biomesoplenty.api.biome.BOPBiomes.*;
 
 public class ModBiomes
 {
-    public static BOPWorldType bopWorldType = new BOPWorldType();
+    //public static BOPWorldType bopWorldType = new BOPWorldType();
 
     public static Multimap<Integer, WeightedSubBiome> subBiomes = HashMultimap.create();
     public static List<Integer> islandBiomeIds = Lists.newArrayList();
@@ -53,6 +54,8 @@ public class ModBiomes
 
     public static void setup()
     {
+        //Fabric API does not support custom Level Types yet
+        /*
         // Obtain the game data logger and disable it temporarily
         Logger gameDataLogger = (Logger)LogManager.getLogger(GameData.class);
         Level oldLevel = gameDataLogger.getLevel();
@@ -62,24 +65,25 @@ public class ModBiomes
         // We intentionally use the minecraft namespace so we continue using "biomesoplenty" in server.properties
         // This is markedly better than the alternative of biomesoplenty:biomesoplenty.
         // We do this with GameData logging disabled to prevent people whining at us.
-        bopWorldType.setRegistryName(new Identifier("biomesoplenty"));
-        ForgeRegistries.WORLD_TYPES.register(bopWorldType);
+        
+        //Registry.register(Registry.WORLD_TYPE, new Identifier("biomesoplenty"), bopWorldType);
 
         // Re-enable the game data logger
         gameDataLogger.setLevel(oldLevel);
 
         // Register biome providers
+        */
         Registry.register(Registry.BIOME_SOURCE, "biomesoplenty_overworld", BOPBiomeProvider.CODEC);
         Registry.register(Registry.BIOME_SOURCE, "biomesoplenty_nether", BOPNetherBiomeProvider.CODEC);
     }
     @Environment(EnvType.CLIENT)
-    public void clientSetup()
+    public static void clientSetup()
         {
-            ColorResolver grassColorResolver = BiomeColors.GRASS_COLOR_RESOLVER;
-            ColorResolver foliageColorResolver = BiomeColors.FOLIAGE_COLOR_RESOLVER;
-            ColorResolver waterColorResolver = BiomeColors.WATER_COLOR_RESOLVER;
+            ColorResolver grassColorResolver = BiomeColors.GRASS_COLOR;
+            ColorResolver foliageColorResolver = BiomeColors.FOLIAGE_COLOR;
+            ColorResolver waterColorResolver = BiomeColors.WATER_COLOR;
 
-            BiomeColors.GRASS_COLOR_RESOLVER = (biome, posX, posZ) ->
+            BiomeColors.GRASS_COLOR = (biome, posX, posZ) ->
             {
                 RegistryKey<Biome> key = BiomeUtil.getClientKey(biome);
                 BiomeMetadata meta = BiomeUtil.getMetadata(key);
@@ -92,7 +96,7 @@ public class ModBiomes
                 return grassColorResolver.getColor(biome, posX, posZ);
             };
 
-            BiomeColors.FOLIAGE_COLOR_RESOLVER = (biome, posX, posZ) ->
+            BiomeColors.FOLIAGE_COLOR = (biome, posX, posZ) ->
             {
                 RegistryKey<Biome> key = BiomeUtil.getClientKey(biome);
                 BiomeMetadata meta = BiomeUtil.getMetadata(key);
@@ -105,7 +109,7 @@ public class ModBiomes
                 return foliageColorResolver.getColor(biome, posX, posZ);
             };
 
-            BiomeColors.WATER_COLOR_RESOLVER = (biome, posX, posZ) ->
+            BiomeColors.WATER_COLOR = (biome, posX, posZ) ->
             {
                 RegistryKey<Biome> key = BiomeUtil.getClientKey(biome);
                 BiomeMetadata meta = BiomeUtil.getMetadata(key);

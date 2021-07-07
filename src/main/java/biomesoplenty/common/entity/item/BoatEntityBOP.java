@@ -7,12 +7,17 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
@@ -22,6 +27,10 @@ import java.util.Arrays;
 import java.util.function.Supplier;
 
 public class BoatEntityBOP extends BoatEntity {
+    private double fallVelocity;
+    private Object location;
+    private static final TrackedData<Integer> BOAT_TYPE_BOP;
+
     public BoatEntityBOP(EntityType<? extends BoatEntityBOP> type, World world) {
         super(type, world);
     }
@@ -34,11 +43,7 @@ public class BoatEntityBOP extends BoatEntity {
         this.prevY = y;
         this.prevZ = z;
     }
-
-    public BoatEntityBOP(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-        this(world, spawnEntity.getPosX(), spawnEntity.getPosY(), spawnEntity.getPosZ());
-    }
-
+    
     @Override
     public Packet<?> createSpawnPacket() {
         return new EntitySpawnS2CPacket(this);
@@ -52,43 +57,43 @@ public class BoatEntityBOP extends BoatEntity {
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
         if (nbt.contains("model", 8 /*TAG_STRING*/)) {
-            this.entityData.set(DATA_ID_TYPE, BoatModel.byName(nbt.getString("model")).ordinal());
+            this.dataTracker.set(BOAT_TYPE_BOP, BoatModel.byName(nbt.getString("model")).ordinal());
         }
     }
 
     @Override
-    protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {
-        this.lastYd = getDeltaMovement().y;
-        if (!isPassenger()) {
+    protected void fall(double y, boolean onGround, BlockState state, BlockPos pos) {
+        this.fallVelocity = getVelocity().y;
+        if (!hasVehicle()) {
             if (onGround) {
                 if (this.fallDistance > 3f) {
-                    if (this.status != Status.ON_LAND) {
+                    if (this.location != BoatEntity.Location.ON_LAND) {
                         this.fallDistance = 0f;
                         return;
                     }
-                    causeFallDamage(this.fallDistance, 1f);
-                    if (!this.level.isClientSide && !this.removed) {
-                        this.remove();
-                        if (this.level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+                    handleFallDamage(this.fallDistance, 1f, DamageSource.FALL);
+                    if (!this.world.isClient && !this.isRemoved()) {
+                        this.kill();
+                        if (this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
                             for (int i = 0; i < 3; ++i) {
-                                spawnAtLocation(getModel().getPlanks());
+                                dropItem(getModel().getPlanks());
                             }
                             for (int j = 0; j < 2; ++j) {
-                                spawnAtLocation(Items.STICK);
+                                dropItem(Items.STICK);
                             }
                         }
                     }
                 }
                 this.fallDistance = 0f;
-            } else if (!this.level.getFluidState(this.blockPosition().below()).is(FluidTags.WATER) && y < 0d) {
+            } else if (!this.world.getFluidState(this.getBlockPos().down()).isIn(FluidTags.WATER) && y < 0d) {
                 this.fallDistance = (float) ((double) this.fallDistance - y);
             }
         }
     }
 
     @Override
-    public Item getDropItem() {
-        switch (BoatModel.byId(this.entityData.get(DATA_ID_TYPE))) {
+    public Item asItem() {
+        switch (BoatModel.byId(this.dataTracker.get(BOAT_TYPE_BOP))) {
             case FIR:
                 return BOPItems.fir_boat;
             case REDWOOD:
@@ -116,17 +121,17 @@ public class BoatEntityBOP extends BoatEntity {
     }
 
     public BoatEntityBOP withModel(BoatModel type) {
-        this.entityData.set(DATA_ID_TYPE, type.ordinal());
+        this.dataTracker.set(BOAT_TYPE_BOP, type.ordinal());
         return this;
     }
 
     public BoatModel getModel() {
-        return BoatModel.byId(this.entityData.get(DATA_ID_TYPE));
+        return BoatModel.byId(this.dataTracker.get(BOAT_TYPE_BOP));
     }
 
     @Deprecated
     @Override
-    public void setType(Type vanillaType) {
+    public void setBoatType(Type vanillaType) {
     }
 
     @Deprecated
@@ -134,8 +139,15 @@ public class BoatEntityBOP extends BoatEntity {
     public Type getBoatType() {
         return Type.OAK;
     }
+    protected void initDataTracker() {
+        this.dataTracker.startTracking(BOAT_TYPE_BOP, BoatModel.FIR.ordinal());
+    }
+    
+    static {
+        BOAT_TYPE_BOP = DataTracker.registerData(BoatEntityBOP.class, TrackedDataHandlerRegistry.INTEGER);
+    }
 
-    public enum BoatModel {
+    public static enum BoatModel {
         FIR("fir", () -> BOPBlocks.fir_planks),
         REDWOOD("redwood", () -> BOPBlocks.redwood_planks),
         CHERRY("cherry", () -> BOPBlocks.cherry_planks),
