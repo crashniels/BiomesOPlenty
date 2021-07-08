@@ -9,12 +9,9 @@ package biomesoplenty.common.biome.overworld;
 
 import biomesoplenty.common.biome.BiomeTemplate;
 import biomesoplenty.common.world.gen.surfacebuilders.BOPConfiguredSurfaceBuilders;
-import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.*;
-import net.minecraft.world.gen.feature.structure.StructureFeatures;
-import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
-import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
+import net.minecraft.world.gen.feature.StructureFeature;
 
 public class GravelBeachBiome extends BiomeTemplate
 {
@@ -26,7 +23,7 @@ public class GravelBeachBiome extends BiomeTemplate
     @Override
     protected void configureBiome(Biome.Builder builder)
     {
-        builder.precipitation(Biome.RainType.RAIN).biomeCategory(Biome.Category.BEACH).depth(0.0F).scale(0.025F).temperature(0.6F).downfall(0.5F);
+        builder.precipitation(Biome.Precipitation.RAIN).biomeCategory(Biome.Category.BEACH).depth(0.0F).scale(0.025F).temperature(0.6F).downfall(0.5F);
 
         builder.specialEffects((new BiomeAmbience.Builder()).waterColor(4159204).waterFogColor(329011).fogColor(12638463).skyColor(calculateSkyColor(0.6F)).ambientMoodSound(MoodSoundAmbience.LEGACY_CAVE_SETTINGS).build());
     }
@@ -37,10 +34,10 @@ public class GravelBeachBiome extends BiomeTemplate
         builder.surfaceBuilder(BOPConfiguredSurfaceBuilders.GRAVEL_FULL);
 
         // Structures
-        builder.addStructureStart(StructureFeatures.MINESHAFT);
-        builder.addStructureStart(StructureFeatures.BURIED_TREASURE);
-        builder.addStructureStart(StructureFeatures.SHIPWRECH_BEACHED);
-        builder.addStructureStart(StructureFeatures.RUINED_PORTAL_STANDARD);
+        builder.addStructureStart(StructureFeature.MINESHAFT);
+        builder.addStructureStart(StructureFeature.BURIED_TREASURE);
+        builder.addStructureStart(StructureFeature.SHIPWRECK);
+        builder.addStructureStart(StructureFeature.RUINED_PORTAL);
 
         // Underground
         DefaultBiomeFeatures.addDefaultCarvers(builder);

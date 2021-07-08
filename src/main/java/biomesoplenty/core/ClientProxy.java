@@ -58,13 +58,12 @@ public class ClientProxy
             BOPBlocks.rainbow_birch_leaves);
     
         // Need to fix
-        /*
+        // Gets color from the block depending on where it is placed
             ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             BlockState BlockState = ((BlockItem)stack.getItem()).getBlock().getDefaultState();
-            return blockColors.getColor(BlockState, null, null, tintIndex); }, 
+            return MinecraftClient.getInstance().getBlockColors().getColor(BlockState, null, null, tintIndex); }, 
         	BOPBlocks.sprout, BOPBlocks.bush, BOPBlocks.clover, BOPBlocks.huge_clover_petal, BOPBlocks.flowering_oak_leaves,
             BOPBlocks.mahogany_leaves, BOPBlocks.palm_leaves, BOPBlocks.willow_leaves, BOPBlocks.willow_vine);
-        */
     }
 
     /*

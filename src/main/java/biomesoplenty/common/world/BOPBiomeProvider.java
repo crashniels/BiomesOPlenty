@@ -12,6 +12,8 @@ import biomesoplenty.common.util.biome.BiomeUtil;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
+import net.minecraft.util.dynamic.RegistryLookupCodec;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
@@ -28,7 +30,7 @@ public class BOPBiomeProvider extends BiomeSource
     {
         return builder.group(
             Codec.LONG.fieldOf("seed").stable().forGetter((biomeProvider) -> biomeProvider.seed),
-            RegistryLookupCodec.create(Registry.BIOME_KEY).forGetter((biomeProvider) -> biomeProvider.biomes)
+            RegistryLookupCodec.of(Registry.BIOME_KEY).forGetter((biomeProvider) -> biomeProvider.biomes)
         ).apply(builder, builder.stable(BOPBiomeProvider::new));
     });
 

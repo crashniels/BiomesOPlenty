@@ -31,7 +31,7 @@ public class BiomeUtil
 
     public static Biome getBiome(RegistryKey<Biome> key)
     {
-        Biome biome = ForgeRegistries.BIOMES.getValue(key.location());
+        Biome biome = ForgeRegistries.BIOMES.getValue(key.getValue());
         if (biome == null) throw new RuntimeException("Attempted to get unregistered biome " + key);
         return biome;
     }
@@ -77,7 +77,7 @@ public class BiomeUtil
 
     public static boolean exists(RegistryKey<Biome> key)
     {
-        return ForgeRegistries.BIOMES.containsKey(key.location());
+        return ForgeRegistries.BIOMES.containsKey(key.getValue());
     }
 
     public static boolean exists(int id)

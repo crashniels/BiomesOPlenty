@@ -514,7 +514,7 @@ public class ModBiomes
     {
         if (BiomeUtil.exists(key))
         {
-            VillagerType.BY_BIOME.put(key, type);
+            VillagerType.BIOME_TO_TYPE.put(key, type);
         }
     }
 
