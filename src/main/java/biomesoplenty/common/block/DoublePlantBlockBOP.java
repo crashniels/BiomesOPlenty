@@ -9,15 +9,18 @@ package biomesoplenty.common.block;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.block.DeadBushBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.PlantBlock;
+import net.minecraft.block.enums.DoubleBlockHalf;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.Properties;
 
 public class DoublePlantBlockBOP extends PlantBlock
 {
     public DoublePlantBlockBOP(AbstractBlock.Settings properties)
     {
         super(properties);
+        this.setDefaultState(this.getStateManager().getDefaultState().with(Properties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER));
     }
 
     /*
@@ -27,4 +30,9 @@ public class DoublePlantBlockBOP extends PlantBlock
         return PlantType.PLAINS;
     }
     */
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(Properties.DOUBLE_BLOCK_HALF);
+    }
 }
