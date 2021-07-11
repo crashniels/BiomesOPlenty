@@ -18,6 +18,6 @@ public class ModEntities {
     public static final EntityType<BoatEntityBOP> boat = EntityType.Builder.<BoatEntityBOP>create(BoatEntityBOP::new, SpawnGroup.MISC).setDimensions(1.375f, 0.5625f).maxTrackingRange(10).build(BiomesOPlenty.MOD_ID + ":boat");
 
     public static void registerEntities() {
-        Registry.register(Registry.ENTITY_TYPE, new Identifier(BiomesOPlenty.MOD_ID, "boat"), boat);
+        Registry.register(Registry.ENTITY_TYPE, new Identifier(BiomesOPlenty.MOD_ID, "boat_bop"), boat);
     }
 }
