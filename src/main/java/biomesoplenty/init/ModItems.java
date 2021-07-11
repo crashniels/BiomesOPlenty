@@ -27,7 +27,6 @@ public class ModItems
         
         music_disc_wanderer = registerItem(new MusicDiscItemBOP("music_disc.wanderer"), "music_disc_wanderer");
 
-        /*
         fir_boat = registerItem(new BoatItemBOP(BoatEntityBOP.BoatModel.FIR), "fir_boat");
         redwood_boat = registerItem(new BoatItemBOP(BoatEntityBOP.BoatModel.REDWOOD), "redwood_boat");
         cherry_boat = registerItem(new BoatItemBOP(BoatEntityBOP.BoatModel.CHERRY), "cherry_boat");
@@ -39,7 +38,6 @@ public class ModItems
         magic_boat = registerItem(new BoatItemBOP(BoatEntityBOP.BoatModel.MAGIC), "magic_boat");
         umbran_boat = registerItem(new BoatItemBOP(BoatEntityBOP.BoatModel.UMBRAN), "umbran_boat");
         hellbark_boat = registerItem(new BoatItemBOP(BoatEntityBOP.BoatModel.HELLBARK), "hellbark_boat");
-        */
 
         bop_icon = registerItem(new Item(new Item.Settings()), "bop_icon");
 	}

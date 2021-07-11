@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import biomesoplenty.init.ModBlocks;
+import biomesoplenty.init.ModEntities;
 import biomesoplenty.init.ModItems;
 import biomesoplenty.init.ModPaintings;
 import biomesoplenty.init.ModSounds;
@@ -38,6 +39,7 @@ public class BiomesOPlenty implements ModInitializer
         ModItems.registerItems();
         ModBlocks.registerBlocks();
         ModVanillaCompat.setup();
+        ModEntities.registerEntities();
         //ModBiomes.setup();
         //ModConfig.setup();
     }

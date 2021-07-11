@@ -9,9 +9,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
@@ -19,7 +23,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class BoatItemBOP extends Item {
-    private static final Predicate<Entity> ENTITY_PREDICATE = EntityPredicates.EXCEPT_SPECTATOR.and(Entity::isPickable);
+    private static final Predicate<Entity> ENTITY_PREDICATE = EntityPredicates.EXCEPT_SPECTATOR.and(Entity::isPlayer);
     private final BoatModel model;
 
     public BoatItemBOP(BoatModel model) {
@@ -31,38 +35,38 @@ public class BoatItemBOP extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack heldItem = player.getMainHandStack();
-        RayTraceResult result = getPlayerPOVHitResult(world, player, RaycastContext.FluidHandling.ANY);
-        if (result.getType() == RayTraceResult.Type.MISS) {
+        HitResult result = raycast(world, player, RaycastContext.FluidHandling.ANY);
+        if (result.getType() == HitResult.Type.MISS) {
             return TypedActionResult.pass(heldItem);
         } else {
-            Vector3d vector3d = player.getViewVector(1f);
-            List<Entity> entities = world.getEntities(player, player.getBoundingBox().expandTowards(vector3d.scale(5d)).inflate(1d), ENTITY_PREDICATE);
+            Vec3d vector3d = player.getRotationVec(1f);
+            List<Entity> entities = world.getOtherEntities(player, player.getBoundingBox().stretch(vector3d.multiply(5d)).expand(1d), ENTITY_PREDICATE);
             if (!entities.isEmpty()) {
-                Vector3d vector3d1 = player.getEyePosition(1f);
+                Vec3d vector3d1 = player.getEyePos();
                 for (Entity entity : entities) {
-                    AxisAlignedBB bounds = entity.getBoundingBox().inflate((double) entity.getPickRadius());
+                    Box bounds = entity.getBoundingBox().expand((double) entity.getTargetingMargin());
                     if (bounds.contains(vector3d1)) {
-                        return ActionResult.pass(heldItem);
+                        return TypedActionResult.success(heldItem);
                     }
                 }
             }
-            if (result.getType() == RayTraceResult.Type.BLOCK) {
-                BoatEntityBOP boat = new BoatEntityBOP(world, result.getLocation().x, result.getLocation().y, result.getLocation().z).withModel(this.model);
-                boat.yRot = player.yRot;
-                if (!world.noCollision(boat, boat.getBoundingBox().inflate(-0.1d))) {
-                    return ActionResult.fail(heldItem);
+            if (result.getType() == HitResult.Type.BLOCK) {
+                BoatEntityBOP boat = new BoatEntityBOP(world, result.getPos().x, result.getPos().y, result.getPos().z).setBoatType(this.model);
+                boat.horizontalSpeed = player.horizontalSpeed;
+                if (!world.isSpaceEmpty(boat, boat.getBoundingBox().expand(-0.1d))) {
+                    return TypedActionResult.fail(heldItem);
                 } else {
-                    if (!world.isClientSide()) {
-                        world.addFreshEntity(boat);
-                        if (!player.abilities.instabuild) {
-                            heldItem.shrink(1);
+                    if (!world.isClient()) {
+                        world.spawnEntity(boat);
+                        if (!player.getAbilities().creativeMode) {
+                            heldItem.decrement(1);
                         }
                     }
-                    player.awardStat(Stats.ITEM_USED.get(this));
-                    return ActionResult.sidedSuccess(heldItem, world.isClientSide());
+                    player.incrementStat(Stats.USED.getOrCreateStat(this));
+                    return TypedActionResult.success(heldItem, world.isClient());
                 }
             } else {
-                return ActionResult.pass(heldItem);
+                return TypedActionResult.pass(heldItem);
             }
         }
     }

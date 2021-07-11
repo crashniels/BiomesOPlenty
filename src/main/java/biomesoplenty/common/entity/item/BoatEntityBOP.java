@@ -15,6 +15,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.tag.FluidTags;
@@ -56,7 +57,7 @@ public class BoatEntityBOP extends BoatEntity {
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
-        if (nbt.contains("model", 8 /*TAG_STRING*/)) {
+        if (nbt.contains("model", NbtElement.STRING_TYPE)) {
             this.dataTracker.set(BOAT_TYPE_BOP, BoatModel.byName(nbt.getString("model")).ordinal());
         }
     }
@@ -120,7 +121,7 @@ public class BoatEntityBOP extends BoatEntity {
         return Items.OAK_BOAT;
     }
 
-    public BoatEntityBOP withModel(BoatModel type) {
+    public BoatEntityBOP setBoatType(BoatEntityBOP.BoatModel type) {
         this.dataTracker.set(BOAT_TYPE_BOP, type.ordinal());
         return this;
     }
@@ -139,8 +140,12 @@ public class BoatEntityBOP extends BoatEntity {
     public Type getBoatType() {
         return Type.OAK;
     }
+
     protected void initDataTracker() {
-        this.dataTracker.startTracking(BOAT_TYPE_BOP, BoatModel.FIR.ordinal());
+        if (this.dataTracker != null) {
+            this.dataTracker.startTracking(BOAT_TYPE_BOP, BoatModel.FIR.ordinal());
+            super.initDataTracker();
+        } 
     }
     
     static {
