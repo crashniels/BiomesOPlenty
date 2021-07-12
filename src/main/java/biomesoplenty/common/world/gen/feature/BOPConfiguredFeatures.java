@@ -14,22 +14,14 @@ import biomesoplenty.common.world.gen.placement.BOPPlacements;
 import biomesoplenty.core.BiomesOPlenty;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Blocks;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
-import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
-import net.minecraft.world.gen.blockstateprovider.WeightedBlockStateProvider;
 import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
-import net.minecraft.world.gen.placement.ChanceConfig;
-import net.minecraft.world.gen.placement.NoPlacementConfig;
-import net.minecraft.world.gen.placement.Placement;
-import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 
 public class BOPConfiguredFeatures
 {
+    /*
     // Trees
     public static final ConfiguredFeature<?, ?> ACACIA_BUSH = register("acacia_bush", BOPFeatures.ACACIA_BUSH.configured(Features.OAK.config()));
     public static final ConfiguredFeature<?, ?> ACACIA_TWIGLET = register("acacia_twiglet", BOPFeatures.ACACIA_TWIGLET.configured(Features.OAK.config()));
@@ -186,7 +178,9 @@ public class BOPConfiguredFeatures
     public static final ConfiguredFeature<?, ?> RAINFOREST_FLOWERS = register("rainforest_flowers", Feature.FLOWER.configured(BOPFeatures.RAINFOREST_FLOWER_CONFIG).decorated(Features.Placements.ADD_32).decorated(Features.Placements.HEIGHTMAP_SQUARE.count(5)));
     public static final ConfiguredFeature<?, ?> SHRUBLAND_FLOWERS = register("shrubland_flowers", Feature.FLOWER.configured((new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.ALLIUM.defaultBlockState()), SimpleBlockPlacer.INSTANCE)).tries(64).build()).decorated(Features.Placements.ADD_32).decorated(Features.Placements.HEIGHTMAP_SQUARE.count(3)));
     public static final ConfiguredFeature<?, ?> SNOWY_FLOWERS = register("snowy_flowers", Feature.FLOWER.configured(BOPFeatures.SNOWY_FLOWER_CONFIG).decorated(Features.Placements.ADD_32).decorated(Features.Placements.HEIGHTMAP_SQUARE.count(3)));
-    public static final ConfiguredFeature<?, ?> TROPIC_FLOWERS = register("tropic_flowers", Feature.FLOWER.configured(BOPFeatures.TROPICS_FLOWER_CONFIG).decorated(Features.Placements.ADD_32).decorated(Features.Placements.HEIGHTMAP_SQUARE.count(15)));
+    */
+    public static final ConfiguredFeature<?, ?> TROPIC_FLOWERS = register("tropic_flowers", Feature.FLOWER.configure(BOPFeatures.TROPICS_FLOWER_CONFIG).decorated(Features.Placements.ADD_32).decorated(Features.Placements.HEIGHTMAP_SQUARE.count(15)));
+    /*
     public static final ConfiguredFeature<?, ?> UNDERGROWTH_FLOWERS = register("undergrowth_flowers", Feature.RANDOM_PATCH.configured(BiomeFeatureHelper.createClusterConfiguration(BOPBlocks.burning_blossom.defaultBlockState())).decorated(Features.Placements.HEIGHTMAP_DOUBLE_SQUARE.count(8)));
     public static final ConfiguredFeature<?, ?> WASTELAND_FLOWERS = register("wasteland_flowers", Feature.FLOWER.configured((new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(BOPBlocks.wilted_lily.defaultBlockState()), SimpleBlockPlacer.INSTANCE)).tries(64).build()).decorated(Features.Placements.ADD_32).decorated(Features.Placements.HEIGHTMAP_SQUARE.count(1)));
     public static final ConfiguredFeature<?, ?> WETLAND_FLOWERS = register("wetland_flowers", Feature.FLOWER.configured(BOPFeatures.WETLAND_FLOWER_CONFIG).decorated(Features.Placements.ADD_32).decorated(Features.Placements.HEIGHTMAP_SQUARE.count(3)));
@@ -198,7 +192,9 @@ public class BOPConfiguredFeatures
     public static final ConfiguredFeature<?, ?> STANDARD_GRASS_1 = register("standard_grass_1", BOPFeatures.STANDARD_GRASS.configured(IFeatureConfig.NONE).decorated(Features.Placements.HEIGHTMAP_DOUBLE_SQUARE.count(1)));
     public static final ConfiguredFeature<?, ?> STANDARD_GRASS_3 = register("standard_grass_3", BOPFeatures.STANDARD_GRASS.configured(IFeatureConfig.NONE).decorated(Features.Placements.HEIGHTMAP_DOUBLE_SQUARE.count(3)));
     public static final ConfiguredFeature<?, ?> STANDARD_GRASS_6 = register("standard_grass_6", BOPFeatures.STANDARD_GRASS.configured(IFeatureConfig.NONE).decorated(Features.Placements.HEIGHTMAP_DOUBLE_SQUARE.count(6)));
+    */
     public static final ConfiguredFeature<?, ?> STANDARD_GRASS_12 = register("standard_grass_12", BOPFeatures.STANDARD_GRASS.configured(IFeatureConfig.NONE).decorated(Features.Placements.HEIGHTMAP_DOUBLE_SQUARE.count(12)));
+    /*
     public static final ConfiguredFeature<?, ?> STANDARD_GRASS_24 = register("standard_grass_24", BOPFeatures.STANDARD_GRASS.configured(IFeatureConfig.NONE).decorated(Features.Placements.HEIGHTMAP_DOUBLE_SQUARE.count(24)));
 
     public static final ConfiguredFeature<?, ?> FERN_GRASS_4 = register("fern_grass_4", BOPFeatures.FERN_GRASS.configured(IFeatureConfig.NONE).decorated(Features.Placements.HEIGHTMAP_DOUBLE_SQUARE.count(4)));
@@ -345,9 +341,10 @@ public class BOPConfiguredFeatures
     public static final ConfiguredFeature<?, ?> WATER_SPRING_EXTRA = register("water_spring_extra", Feature.SPRING.configured(BOPFeatures.WATER_SPRING_EXTRA_CONFIG).decorated(Features.Placements.HEIGHTMAP_DOUBLE_SQUARE).count(128));
     public static final ConfiguredFeature<?, ?> WHITE_SAND_DISK = register("white_sand_disk", Feature.DISK.configured(new SphereReplaceConfig(BOPBlocks.white_sand.defaultBlockState(), FeatureSpread.of(2, 4), 2, ImmutableList.of(Blocks.DIRT.defaultBlockState(), Blocks.GRASS_BLOCK.defaultBlockState()))).decorated(Features.Placements.TOP_SOLID_HEIGHTMAP_SQUARE).count(2));
     public static final ConfiguredFeature<?, ?> WHITE_SAND_DISK_EXTRA = register("white_sand_disk_extra", Feature.DISK.configured(new SphereReplaceConfig(BOPBlocks.white_sand.defaultBlockState(), FeatureSpread.of(4, 2), 1, ImmutableList.of(Blocks.DIRT.defaultBlockState(), Blocks.GRASS_BLOCK.defaultBlockState()))).decorated(Features.Placements.TOP_SOLID_HEIGHTMAP_SQUARE).count(8));
+    */
 
-    private static <FC extends IFeatureConfig> ConfiguredFeature<FC, ?> register(String key, ConfiguredFeature<FC, ?> feature)
+    private static <FC extends FeatureConfig> ConfiguredFeature<FC, ?> register(String key, ConfiguredFeature<FC, ?> feature)
     {
-        return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(BiomesOPlenty.MOD_ID, key), feature);
+        return Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(BiomesOPlenty.MOD_ID, key), feature);
     }
 }

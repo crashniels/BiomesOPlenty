@@ -11,6 +11,7 @@ package biomesoplenty.core;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import biomesoplenty.init.ModBiomes;
 import biomesoplenty.init.ModBlocks;
 import biomesoplenty.init.ModEntities;
 import biomesoplenty.init.ModItems;
@@ -41,6 +42,7 @@ public class BiomesOPlenty implements ModInitializer
         ModVanillaCompat.setup();
         ModEntities.registerEntities();
         //ModBiomes.setup();
+        ModBiomes.registerBiomes();
         //ModConfig.setup();
     }
 }

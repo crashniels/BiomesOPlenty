@@ -6,22 +6,24 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
-import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilder.SurfaceConfig;
+import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
 import java.util.Random;
 
-public class TropicsSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig> {
-    public TropicsSurfaceBuilder(Codec<SurfaceBuilderConfig> p_i232124_1_) {
+public class TropicsSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
+    public TropicsSurfaceBuilder(Codec<TernarySurfaceConfig> p_i232124_1_) {
         super(p_i232124_1_);
     }
 
-    public void apply(Random random, IChunk chunkIn, Biome biomeIn, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, SurfaceBuilderConfig config) {
-        this.apply(random, chunkIn, biomeIn, x, z, startHeight, noise, defaultBlock, defaultFluid, config.getTopMaterial(), config.getUnderMaterial(), config.getUnderwaterMaterial(), seaLevel);
+    @Override
+    public void generate(Random random, Chunk chunkIn, Biome biomeIn, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, int i, long seed, TernarySurfaceConfig config) {
+        this.generate(random, chunkIn, biomeIn, x, z, startHeight, noise, defaultBlock, defaultFluid, config.getTopMaterial(), config.getUnderMaterial(), config.getUnderwaterMaterial(), seaLevel);
     }
 
-    protected void apply(Random random, IChunk chunkIn, Biome biomeIn, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, BlockState top, BlockState middle, BlockState bottom, int sealevel) {
+    protected void generate(Random random, Chunk chunkIn, Biome biomeIn, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, BlockState top, BlockState middle, BlockState bottom, int sealevel) {
         BlockState blockstate = top;
         BlockState blockstate1 = middle;
         BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
@@ -38,26 +40,26 @@ public class TropicsSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig> 
             {
                 i = -1;
             }
-            else if (blockstate2.is(defaultBlock.getBlock()))
+            else if (blockstate2.isOf(defaultBlock.getBlock()))
             {
                 if (i == -1)
                 {
                     if (j <= 0)
                     {
-                        blockstate = Blocks.AIR.defaultBlockState();
+                        blockstate = Blocks.AIR.getDefaultState();
                         blockstate1 = defaultBlock;
                     }
                     else if (i1 >= sealevel - 4 && i1 <= sealevel + 1)
                     {
-                        blockstate = BOPBlocks.white_sand.defaultBlockState();
-                        blockstate1 = BOPBlocks.white_sand.defaultBlockState();
+                        blockstate = BOPBlocks.white_sand.getDefaultState();
+                        blockstate1 = BOPBlocks.white_sand.getDefaultState();
                     }
 
                     if (i1 < sealevel && (blockstate == null || blockstate.isAir()))
                     {
                         if (biomeIn.getTemperature(blockpos$mutable.set(x, i1, z)) < 0.15F)
                         {
-                            blockstate = Blocks.ICE.defaultBlockState();
+                            blockstate = Blocks.ICE.getDefaultState();
                         }
                         else
                         {
@@ -74,7 +76,7 @@ public class TropicsSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig> 
                     }
                     else if (i1 < sealevel - 7 - j)
                     {
-                        blockstate = Blocks.AIR.defaultBlockState();
+                        blockstate = Blocks.AIR.getDefaultState();
                         blockstate1 = defaultBlock;
                         chunkIn.setBlockState(blockpos$mutable, bottom, false);
                     }
@@ -87,10 +89,10 @@ public class TropicsSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig> 
                 {
                     --i;
                     chunkIn.setBlockState(blockpos$mutable, blockstate1, false);
-                    if (i == 0 && blockstate1.is(BOPBlocks.white_sand) && j > 1)
+                    if (i == 0 && blockstate1.isOf(BOPBlocks.white_sand) && j > 1)
                     {
                         i = random.nextInt(4) + Math.max(0, i1 - 63);
-                        blockstate1 = BOPBlocks.white_sandstone.defaultBlockState();
+                        blockstate1 = BOPBlocks.white_sandstone.getDefaultState();
                     }
                 }
             }

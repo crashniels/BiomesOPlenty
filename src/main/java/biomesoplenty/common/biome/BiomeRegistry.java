@@ -26,6 +26,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -415,7 +416,7 @@ public class BiomeRegistry
             }
 
             Registry.register(BuiltinRegistries.BIOME, new Identifier(BiomesOPlenty.MOD_ID, name), biome);
-
+            
             if (data.getMetadata() != null)
             {
                 ModBiomes.biomeMetadata.put(BiomeUtil.createKey(data.getBiome()), data.getMetadata());

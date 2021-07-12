@@ -12,7 +12,10 @@ import org.jetbrains.annotations.Nullable;
 import biomesoplenty.common.biome.BiomeMetadata;
 import biomesoplenty.core.BiomesOPlenty;
 import biomesoplenty.init.ModBiomes;
+import net.fabricmc.fabric.impl.registry.sync.FabricRegistry;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
@@ -21,7 +24,7 @@ public class BiomeUtil
 {
     public static RegistryKey<Biome> createKey(Biome biome)
     {
-        return biome == null ? null : RegistryKey.create(Registry.BIOME_KEY, biome.delegate.name());
+        return biome == null ? null : RegistryKey.of(Registry.BIOME_KEY, new Identifier(biome.toString()));
     }
 
     public static RegistryKey<Biome> createKey(int id)
@@ -32,6 +35,7 @@ public class BiomeUtil
     public static Biome getBiome(RegistryKey<Biome> key)
     {
         Biome biome = ForgeRegistries.BIOMES.getValue(key.getValue());
+        Biome biome = getregistrymanager
         if (biome == null) throw new RuntimeException("Attempted to get unregistered biome " + key);
         return biome;
     }
@@ -52,7 +56,7 @@ public class BiomeUtil
 
     public static int getBiomeId(RegistryKey<Biome> key)
     {
-        return getBiomeId(getBiome(key));
+        return getBiomeId(Registry.BIOME_KEY.get);
     }
 
     public static boolean hasMetadata(RegistryKey<Biome> key)
@@ -77,7 +81,8 @@ public class BiomeUtil
 
     public static boolean exists(RegistryKey<Biome> key)
     {
-        return ForgeRegistries.BIOMES.containsKey(key.getValue());
+        //return ForgeRegistries.BIOMES.containsKey(key.getValue());
+        return true;
     }
 
     public static boolean exists(int id)

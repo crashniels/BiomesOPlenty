@@ -27,6 +27,8 @@ import com.google.common.collect.Multimap;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
+import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -34,6 +36,7 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.level.ColorResolver;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -72,9 +75,10 @@ public class ModBiomes
         gameDataLogger.setLevel(oldLevel);
 
         // Register biome providers
-        */
+        
         Registry.register(Registry.BIOME_SOURCE, "biomesoplenty_overworld", BOPBiomeProvider.CODEC);
         Registry.register(Registry.BIOME_SOURCE, "biomesoplenty_nether", BOPNetherBiomeProvider.CODEC);
+        */
     }
     @Environment(EnvType.CLIENT)
     public static void clientSetup()
@@ -128,14 +132,16 @@ public class ModBiomes
         //Technical Biomes (Need to be registered before main biomes that use them)
         registerTechnicalBiome(new GravelBeachBiome(), "gravel_beach");
         registerTechnicalBiome(new TropicBeachBiome(), "tropic_beach");
+        /*
         registerTechnicalBiome(new AlpsFoothillsBiome(), "alps_foothills");
         registerTechnicalBiome(new RedwoodForestEdgeBiome(), "redwood_forest_edge");
         registerTechnicalBiome(new VolcanicPlainsBiome(), "volcanic_plains");
         registerTechnicalBiome(new OrchardBiome(), "orchard");
+        */
 
         BiomeRegistry.configureTechnicalBiomes();
         BiomeRegistry.finalizeRegistrations(BiomeRegistry.RegistrationType.TECHNICAL_BIOME);
-
+        /*
         // Both a standard biome and a technical biome
         registerBiome(new BayouMangroveBiome(), "bayou_mangrove");
 
@@ -304,39 +310,44 @@ public class ModBiomes
         BiomeRegistry.finalizeRegistrations(BiomeRegistry.RegistrationType.ISLAND_BIOME);
 
         // Set up vanilla biomes
-        registerVanillaBiome(Biomes.SNOWY_TUNDRA, BOPClimates.ICE_CAP, 10);
-        registerVanillaBiome(Biomes.FROZEN_OCEAN, BOPClimates.ICE_CAP, 3);
-        registerVanillaBiome(Biomes.MOUNTAINS, BOPClimates.TUNDRA, 10);
-        registerVanillaBiome(Biomes.SNOWY_TAIGA, BOPClimates.TUNDRA, 7);
-        registerVanillaBiome(Biomes.TAIGA, BOPClimates.WET_BOREAL, 10);
-        registerVanillaBiome(Biomes.GIANT_TREE_TAIGA, BOPClimates.DRY_BOREAL, 5);
-        registerVanillaBiome(Biomes.DARK_FOREST, BOPClimates.WET_TEMPERATE, 7);
-        registerVanillaBiome(Biomes.BIRCH_FOREST, BOPClimates.DRY_TEMPERATE, 5);
-        registerVanillaBiome(Biomes.FOREST, BOPClimates.COOL_TEMPERATE, 10);
-        registerVanillaBiome(Biomes.PLAINS, BOPClimates.WARM_TEMPERATE, 10);
-        registerVanillaBiome(Biomes.SWAMP, BOPClimates.SUBTROPICAL, 7);
-        registerVanillaBiome(Biomes.LUKEWARM_OCEAN, BOPClimates.SUBTROPICAL, 3);
-        registerVanillaBiome(Biomes.JUNGLE, BOPClimates.TROPICAL, 10);
-        registerVanillaBiome(Biomes.SAVANNA, BOPClimates.SAVANNA, 10);
-        registerVanillaBiome(Biomes.DESERT, BOPClimates.HOT_DESERT, 15);
-        registerVanillaBiome(Biomes.BADLANDS_PLATEAU, BOPClimates.HOT_DESERT, 10);
-        registerVanillaBiome(Biomes.WOODED_BADLANDS_PLATEAU, BOPClimates.HOT_DESERT, 3);
+        registerVanillaBiome(BiomeKeys.SNOWY_TUNDRA, BOPClimates.ICE_CAP, 10);
+        registerVanillaBiome(BiomeKeys.FROZEN_OCEAN, BOPClimates.ICE_CAP, 3);
+        registerVanillaBiome(BiomeKeys.MOUNTAINS, BOPClimates.TUNDRA, 10);
+        registerVanillaBiome(BiomeKeys.SNOWY_TAIGA, BOPClimates.TUNDRA, 7);
+        registerVanillaBiome(BiomeKeys.TAIGA, BOPClimates.WET_BOREAL, 10);
+        registerVanillaBiome(BiomeKeys.GIANT_TREE_TAIGA, BOPClimates.DRY_BOREAL, 5);
+        registerVanillaBiome(BiomeKeys.DARK_FOREST, BOPClimates.WET_TEMPERATE, 7);
+        registerVanillaBiome(BiomeKeys.BIRCH_FOREST, BOPClimates.DRY_TEMPERATE, 5);
+        registerVanillaBiome(BiomeKeys.FOREST, BOPClimates.COOL_TEMPERATE, 10);
+        registerVanillaBiome(BiomeKeys.PLAINS, BOPClimates.WARM_TEMPERATE, 10);
+        registerVanillaBiome(BiomeKeys.SWAMP, BOPClimates.SUBTROPICAL, 7);
+        registerVanillaBiome(BiomeKeys.LUKEWARM_OCEAN, BOPClimates.SUBTROPICAL, 3);
+        registerVanillaBiome(BiomeKeys.JUNGLE, BOPClimates.TROPICAL, 10);
+        registerVanillaBiome(BiomeKeys.SAVANNA, BOPClimates.SAVANNA, 10);
+        registerVanillaBiome(BiomeKeys.DESERT, BOPClimates.HOT_DESERT, 15);
+        registerVanillaBiome(BiomeKeys.BADLANDS_PLATEAU, BOPClimates.HOT_DESERT, 10);
+        registerVanillaBiome(BiomeKeys.WOODED_BADLANDS_PLATEAU, BOPClimates.HOT_DESERT, 3);
 
-        registerVanillaBiome(Biomes.BASALT_DELTAS, BOPClimates.NETHER, 10);
-        registerVanillaBiome(Biomes.CRIMSON_FOREST, BOPClimates.NETHER, 10);
-        registerVanillaBiome(Biomes.NETHER_WASTES, BOPClimates.NETHER, 10);
-        registerVanillaBiome(Biomes.SOUL_SAND_VALLEY, BOPClimates.NETHER, 10);
-        registerVanillaBiome(Biomes.WARPED_FOREST, BOPClimates.NETHER, 10);
+        registerVanillaBiome(BiomeKeys.BASALT_DELTAS, BOPClimates.NETHER, 10);
+        registerVanillaBiome(BiomeKeys.CRIMSON_FOREST, BOPClimates.NETHER, 10);
+        registerVanillaBiome(BiomeKeys.NETHER_WASTES, BOPClimates.NETHER, 10);
+        registerVanillaBiome(BiomeKeys.SOUL_SAND_VALLEY, BOPClimates.NETHER, 10);
+        registerVanillaBiome(BiomeKeys.WARPED_FOREST, BOPClimates.NETHER, 10);
 
         BiomeRegistry.configureVanillaBiomes();
         BiomeRegistry.finalizeRegistrations(BiomeRegistry.RegistrationType.VANILLA_BIOME);
-
+        */
         registerBiomeDictionaryTags();
         registerVillagerTypes();
+        
     }
 
     private static void registerBiomeDictionaryTags()
     {
+        OverworldBiomes.addShoreBiome(BiomeKeys.FOREST, gravel_beach, 0.2);
+        OverworldBiomes.addShoreBiome(BiomeKeys.FOREST, tropic_beach, 0.2);
+
+        /*
         //Overworld Biomes
         registerBiomeToDictionary(alps, Type.OVERWORLD, Type.COLD, Type.SPARSE, Type.CONIFEROUS, Type.MOUNTAIN, Type.SNOWY);
         registerBiomeToDictionary(alps_foothills, Type.OVERWORLD, Type.COLD, Type.SPARSE, Type.CONIFEROUS, Type.FOREST, Type.MOUNTAIN, Type.SNOWY);
@@ -420,10 +431,12 @@ public class ModBiomes
         registerBiomeToDictionary(undergrowth, Type.NETHER, Type.HOT, Type.DRY, Type.FOREST);
         registerBiomeToDictionary(visceral_heap, Type.NETHER, Type.HOT, Type.DRY);
         registerBiomeToDictionary(withered_abyss, Type.NETHER, Type.HOT, Type.DRY, Type.VOID);
+        */
     }
 
     private static void registerVillagerTypes()
     {
+        /*
         registerVillagerType(alps, VillagerType.SNOW);
         registerVillagerType(alps_foothills, VillagerType.SNOW);
         registerVillagerType(bamboo_blossom_grove, VillagerType.PLAINS);
@@ -500,16 +513,18 @@ public class ModBiomes
         registerVillagerType(wetland_forest, VillagerType.SWAMP);
         registerVillagerType(wooded_scrubland, VillagerType.SAVANNA);
         registerVillagerType(woodland, VillagerType.PLAINS);
+        */
     }
-
-    private static void registerBiomeToDictionary(RegistryKey<Biome> key, Type...type)
+    /*
+    private static void registerBiomeToDictionary(RegistryKey<Biome> key, Identifier dimType, OverworldClimate climate, RegistryKey<Biome> biome)
     {
         if (BiomeUtil.exists(key))
         {
-            BiomeDictionary.addTypes(key, type);
+            //BiomeDictionary.addTypes(key, type);
+            OverworldBiomes.addShoreBiome(BiomeKeys.FOREST, key, 1.0);
         }
     }
-
+    */
     private static void registerVillagerType(RegistryKey<Biome> key, VillagerType type)
     {
         if (BiomeUtil.exists(key))

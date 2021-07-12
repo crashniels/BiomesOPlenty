@@ -7,10 +7,17 @@
  ******************************************************************************/
 package biomesoplenty.common.biome.overworld;
 
+import org.apache.logging.log4j.Level;
+
 import biomesoplenty.common.biome.BiomeTemplate;
 import biomesoplenty.common.world.gen.surfacebuilders.BOPConfiguredSurfaceBuilders;
+import biomesoplenty.core.BiomesOPlenty;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.sound.BiomeMoodSound;
 import net.minecraft.world.biome.*;
+import net.minecraft.world.gen.feature.ConfiguredStructureFeatures;
+import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 import net.minecraft.world.gen.feature.StructureFeature;
 
 public class GravelBeachBiome extends BiomeTemplate
@@ -23,45 +30,45 @@ public class GravelBeachBiome extends BiomeTemplate
     @Override
     protected void configureBiome(Biome.Builder builder)
     {
-        builder.precipitation(Biome.Precipitation.RAIN).biomeCategory(Biome.Category.BEACH).depth(0.0F).scale(0.025F).temperature(0.6F).downfall(0.5F);
+        builder.precipitation(Biome.Precipitation.RAIN).category(Biome.Category.BEACH).depth(0.0F).scale(0.025F).temperature(0.6F).downfall(0.5F);
 
-        builder.specialEffects((new BiomeAmbience.Builder()).waterColor(4159204).waterFogColor(329011).fogColor(12638463).skyColor(calculateSkyColor(0.6F)).ambientMoodSound(MoodSoundAmbience.LEGACY_CAVE_SETTINGS).build());
+        builder.effects((new BiomeEffects.Builder()).waterColor(4159204).waterFogColor(329011).fogColor(12638463).skyColor(calculateSkyColor(0.6F)).moodSound(BiomeMoodSound.CAVE).build());
     }
 
     @Override
-    protected void configureGeneration(BiomeGenerationSettings.Builder builder)
+    protected void configureGeneration(GenerationSettings.Builder builder)
     {
         builder.surfaceBuilder(BOPConfiguredSurfaceBuilders.GRAVEL_FULL);
 
         // Structures
-        builder.addStructureStart(StructureFeature.MINESHAFT);
-        builder.addStructureStart(StructureFeature.BURIED_TREASURE);
-        builder.addStructureStart(StructureFeature.SHIPWRECK);
-        builder.addStructureStart(StructureFeature.RUINED_PORTAL);
+        builder.structureFeature(ConfiguredStructureFeatures.MINESHAFT);
+        builder.structureFeature(ConfiguredStructureFeatures.BURIED_TREASURE);
+        builder.structureFeature(ConfiguredStructureFeatures.SHIPWRECK);
+        builder.structureFeature(ConfiguredStructureFeatures.RUINED_PORTAL);
 
         // Underground
-        DefaultBiomeFeatures.addDefaultCarvers(builder);
+        DefaultBiomeFeatures.addLandCarvers(builder);
         DefaultBiomeFeatures.addDefaultLakes(builder);
-        DefaultBiomeFeatures.addDefaultMonsterRoom(builder);
-        DefaultBiomeFeatures.addDefaultUndergroundVariety(builder);
+        DefaultBiomeFeatures.addDungeons(builder);
+        DefaultBiomeFeatures.addMineables(builder);
         DefaultBiomeFeatures.addDefaultOres(builder);
-        DefaultBiomeFeatures.addDefaultSoftDisks(builder);
-        DefaultBiomeFeatures.addDefaultSprings(builder);
-        DefaultBiomeFeatures.addSurfaceFreezing(builder);
+        DefaultBiomeFeatures.addDefaultDisks(builder);
+        DefaultBiomeFeatures.addSprings(builder);
+        DefaultBiomeFeatures.addFrozenTopLayer(builder);
     }
 
     @Override
-    protected void configureMobSpawns(MobSpawnInfo.Builder builder)
+    protected void configureMobSpawns(SpawnSettings.Builder builder)
     {
         // Entities
-        builder.addSpawn(EntityClassification.AMBIENT, new MobSpawnInfo.Spawners(EntityType.BAT, 10, 8, 8));
-        builder.addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(EntityType.SPIDER, 100, 4, 4));
-        builder.addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(EntityType.ZOMBIE, 95, 4, 4));
-        builder.addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(EntityType.ZOMBIE_VILLAGER, 5, 1, 1));
-        builder.addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(EntityType.SKELETON, 100, 4, 4));
-        builder.addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(EntityType.CREEPER, 100, 4, 4));
-        builder.addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(EntityType.SLIME, 100, 4, 4));
-        builder.addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(EntityType.ENDERMAN, 10, 1, 4));
-        builder.addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(EntityType.WITCH, 5, 1, 1));
+        builder.spawn(SpawnGroup.AMBIENT, new SpawnSettings.SpawnEntry(EntityType.BAT, 10, 8, 8));
+        builder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.SPIDER, 100, 4, 4));
+        builder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.ZOMBIE, 95, 4, 4));
+        builder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.ZOMBIE_VILLAGER, 5, 1, 1));
+        builder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.SKELETON, 100, 4, 4));
+        builder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.CREEPER, 100, 4, 4));
+        builder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.SLIME, 100, 4, 4));
+        builder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.ENDERMAN, 10, 1, 4));
+        builder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.WITCH, 5, 1, 1));
     }
 }

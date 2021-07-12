@@ -7,6 +7,8 @@
  ******************************************************************************/
 package biomesoplenty.api.biome;
 
+import org.apache.logging.log4j.Level;
+
 import biomesoplenty.core.BiomesOPlenty;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
